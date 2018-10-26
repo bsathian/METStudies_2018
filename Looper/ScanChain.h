@@ -94,8 +94,8 @@ bool lepsPassOther(bool isElEvt, int id1, int id2) {
 }
 
 bool lepsPassOtherLenient(bool isElEvt, int id1, int id2) {
-  double lead_pt = 45;
-  double sublead_pt = 40;
+  double lead_pt = 25;
+  double sublead_pt = 20;
   if (isElEvt) {
     if ((els_p4().at(id1)).Pt() >= lead_pt && (els_p4().at(id2)).Pt() >= sublead_pt
           && abs((els_p4().at(id1)).eta()) < 2.4 && abs((els_p4().at(id2)).eta()) < 2.4
@@ -283,7 +283,7 @@ double mht(bool isElEvt, int id1, int id2) {
   return fMHT.pt();
 }
 
-ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CMET(TString currentFileName, int use_cleaned_met, TString JEC_version_data, TString JEC_version_mc) {
+ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CMET(TString currentFileName, int use_cleaned_met, string JEC_version_data, string JEC_version_mc) {
   std::pair<float, float> pT1CMET;
 
   std::vector<std::string> jetcorr_filenames_pfL1FastJetL2L3;

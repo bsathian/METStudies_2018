@@ -9,21 +9,21 @@ from metis.StatsParser import StatsParser
 import os, sys
 
 tar_name = "lib_CMS4Plus_V10-02-01.tar.gz"
-os.system("mtarfile -b %s --xz" % tar_name) 
+#os.system("mtarfile -b %s --xz" % tar_name) 
 
 if __name__ == "__main__":
 
     pds = ["DoubleMuon", "EGamma"]
     proc_vers = [
-	#("Run2018A", "v1"),
-	#("Run2018A", "v2"),
-	#("Run2018A", "v3"),
-	#("Run2018B", "v1"),
-	#("Run2018B", "v2"),
-	#("Run2018C", "v1"),
-        #("Run2018C", "v2"),
+	("Run2018A", "v1"),
+	("Run2018A", "v2"),
+	("Run2018A", "v3"),
+	("Run2018B", "v1"),
+	("Run2018B", "v2"),
+	("Run2018C", "v1"),
+        ("Run2018C", "v2"),
 	("Run2018C", "v3"),
-	#("Run2018D", "v1"),
+	("Run2018D", "v1"),
         ("Run2018D", "v2"),
 	]	
 
@@ -63,6 +63,8 @@ if __name__ == "__main__":
             total_summary[dsname] = task.get_task_summary()
 
         for dsname in dataset_names:
+	    if "DoubleMuon" in dsname and "Run2018D-PromptReco-v1" in dsname:
+	      continue
             open_dataset = False
             task = CMSSWTask(
                     sample = DBSSample(dataset=dsname),

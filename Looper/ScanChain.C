@@ -11,6 +11,8 @@
 // CMS3
 #include "CORE/CMS3.cc"
 #include "CORE/Base.cc"
+#include "CORE/Config.cc"
+#include "CORE/Tools/JetCorrector.h"
 #include "CORE/TriggerSelections.cc"
 #include "CORE/IsolationTools.cc"
 #include "CORE/ElectronSelections.cc"
@@ -35,6 +37,7 @@ const int nCandCats = 4;
 const int nMETVars = 3;
 
 int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, bool puReweight, int selection, double scale1fb, double target_lumi = 1.) {
+  gconf.year = -1;
   // Benchmark
   TBenchmark *bmark = new TBenchmark();
   bmark->Start("benchmark");
@@ -95,7 +98,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
   vector<TH2D*> hJetPtPhi = create_2Dhistogram_vector("hJetPtPhi", 50, 0, 500, 50, -3.142, 3.142, nHists);
   vector<TH1D*> hJetUncorrPt = create_histogram_vector("hJetUncorrPt", 100, 0, 500, nHists);
 
-  double vtxBins[] = {0,5,10,15,20,25,30,35,40,45,100};
+  double vtxBins[] = {0,10,15,20,25,30,35,40,45,50,60,75,100};
   int nVtxBins = (sizeof(vtxBins)/sizeof(vtxBins[0]))-1;
   vector<TH1D*> hNVtx;
   vector<TH1D*> hNVtx_up, hNVtx_down;
@@ -142,14 +145,17 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
     if (currentFileName.Contains("2016")) {
       json_file = "Cert_271036-284044_13TeV_23Sep2016ReReco_Collisions16_JSON_snt.txt";
       set_goodrun_file(json_file);
+      gconf.year = 2016;
     }
-    else if (currentFileName.Contains("2017") {
+    else if (currentFileName.Contains("2017")) {
       json_file = "Cert_294927-306462_13TeV_EOY2017ReReco_Collisions17_JSON_snt.txt"; 
       set_goodrun_file(json_file);
+      gconf.year = 2017;
     }
-    else if (currentFileName.Contains("2018") {
+    else if (currentFileName.Contains("2018")) {
       json_file = "Cert_314472-322633_13TeV_PromptReco_Collisions18_JSON_snt.txt";
       set_goodrun_file(json_file);
+      gconf.year = 2018;
     } 
 
     for (unsigned int event = 0; event < nEventsTree; ++event) {
@@ -233,11 +239,14 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
       if (dMass < 81 || dMass > 101)                                                  continue;
 
+      cout << event << " / " << nEventsTree << endl;
+
+      if (selection == 2) { // fill histos for PU reweighting
+        fill_histograms(hNVtx, nvtx, weight);
+	continue;
+      }
 
       // Done with selection, now fill histograms
-      fill_histograms(hpfMETraw, evt_pfmet_raw(), weight);
-      fill_histograms(hpfModMETraw, evt_mod_pfmet_raw(), weight); 
-
       int nJet = nJets(isElEvt, id1, id2);
 
 
@@ -249,16 +258,9 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
       int nCCands(0), nPCands(0), nNCands(0);
 
-      vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> vCorrectedJets_V11 = correctedJets(currentFileName, "V11", "V11");
-
       for (int i = 0; i < cms3.pfjets_p4().size(); i++) {
-	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> jet_p4 = cms3.pfjets_p4().at(i)*cms3.pfjets_undoJEC().at(i);	
-	//cout << cms3.pfjets_p4().at(i).pt() << endl;
-	//for (int j = 0; j < cms3.pfjets_pfcandIndicies()[i].size(); j++)
-	//  cout << cms3.pfjets_pfcandIndicies()[i][j] << endl;
-	//cout << jet_p4.pt() << endl;
-        //cout << vCorrectedJets_V11[i].pt() << endl;
-        //cout << endl;
+	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> jet_p4 = cms3.pfjets_p4().at(i);
+	//ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> jet_p4 = cms3.pfjets_p4().at(i)*cms3.pfjets_undoJEC().at(i);	
 	if (!(jet_p4.pt() > 0)) continue;
 	if (i == 0) {
 	  fill_histograms(hLeadJetPt, jet_p4.pt(), weight);
@@ -285,7 +287,6 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
 	fill_histograms(vhCandpT[candIdx], pt, weight);
 	fill_histograms(vhCandeta[candIdx], eta, weight);
-	if (candIdx == 1 && eta > 2.3 && eta < 3.0) fill_histograms(hPhotonpTEndcap,pt, weight);
 	vFourVec[etaIdx][candIdx] += fourV;
 	vFourVec[etaIdx][3] += fourV;
 	vFourVec[5][3] += fourV;
