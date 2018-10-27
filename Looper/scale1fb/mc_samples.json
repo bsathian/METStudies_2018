@@ -1,0 +1,9 @@
+{
+    "processes": {
+        "bkg": {
+            "datasets": [
+		"/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1/MINIAODSIM"
+                ]
+            }
+        }
+    }
