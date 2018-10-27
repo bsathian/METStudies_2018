@@ -34,13 +34,13 @@ nPar = 20
 if not args.skip_data:
   data_files = ""
   for key, era in data.iteritems():
-    if era not in eras:
+    if key not in eras:
       continue  
     files = glob.glob(basepath + era + "_" + args.tag + "/*.root")
     if len(files) == 0:
       continue
-    file_name = era + ".root"
-    data_files += file_name + " "
+    file_name = era
+    data_files += file_name + ".root "
     print("addHistos %s %s %d %d" % (file_name, basepath + era + "_" + args.tag + "/Zll_histograms", len(files), nPar))
     os.system("addHistos %s %s %d %d" % (file_name, basepath + era + "_" + args.tag + "/Zll_histograms", len(files), nPar)) 
 
@@ -51,7 +51,6 @@ if not args.skip_data:
 if not args.skip_mc:
   for key, sample in mc.iteritems():
     files = glob.glob(basepath + sample + "_" + args.tag + "/*.root")
-    print files
     if len(files) == 0:
       continue
     file_name = sample

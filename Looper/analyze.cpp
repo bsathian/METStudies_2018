@@ -32,8 +32,8 @@ int main(int argc, char* argv[])
   int selection = atoi(argv[5]);
   double scale1fb = atof(argv[6]);
 
-   vector<TString> vWeightFile = {};
-  //vector<TString> vWeightFile = {"pileupReweightsMC_B.root", "pileupReweightsMC_C.root", "pileupReweightsMC_D,E.root", "pileupReweightsMC_F.root"};
+  //vector<TString> vWeightFile = {};
+  vector<TString> vWeightFile = {"pileupReweightsMC_A.root", "pileupReweightsMC_B.root", "pileupReweightsMC_C.root", "pileupReweightsMC_D.root", "pileupReweightsMC_All.root"};
   ScanChain(chain, output_name, vWeightFile, puReweight, selection, scale1fb); 
   return 0;
 }

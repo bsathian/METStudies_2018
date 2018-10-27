@@ -16,15 +16,16 @@ hadoop_path = "MET_2018"
 parser = argparse.ArgumentParser()
 parser.add_argument("--selection", help = "1: regular, 2: just fill nvtx hist for PU reweighting", type=str)
 parser.add_argument("--test_run", help = "just submit for DoubleMuon and EGamma 2018 Run A", action="store_true")
+parser.add_argument("--mc_only", help = "only run mc", action="store_true")
 parser.add_argument("--no_tar", help = "don't remake tar file", action="store_true")
 args = parser.parse_args()
 
 
 # Make tarball
 if not args.no_tar:
-  os.system("XZ_OPT=-9 tar -Jc --exclude='.git' --exclude='*.root' --exclude='*.tar*' -f package.tar.gz analyze *_JSON_snt.txt pileupReweight*.root CORE/")
+  os.system("XZ_OPT=-9 tar -Jc --exclude='.git' --exclude='*.tar*' -f package.tar.gz analyze *_JSON_snt.txt pileupReweight*.root CORE/")
 
-job_tag = "MET_v1"
+job_tag = "MET_v2"
 if args.selection == 2:
   job_tag += "pu"
 
@@ -54,6 +55,7 @@ basepath = "/hadoop/cms/store/user/smay/ProjectMetis/"
 all_jobs_done = False
 total_summary = {}
 while True:
+  all_jobs_done = True
   for key, info in mc.iteritems():
     if args.test_run:
       continue
@@ -85,10 +87,12 @@ while True:
       print ""
 
   for key, info in data.iteritems():
+    if args.mc_only:
+      continue
     if key not in eras:
       continue
     sample = DirectorySample(dataset = "Data_Run2018" + key, location = basepath + info["globber"])
-    job_args = '%s %s %.12f' % ("none" if args.selection == "2" else "Reweight", args.selection, 1.0)
+    job_args = '%s %s %.12f' % ("none", args.selection, 1.0)
     output_name = "Zll_histograms.root"
     task = CondorTask(
               sample = sample,
@@ -114,7 +118,7 @@ while True:
       print "Job={} finished".format(job_tag)
       print ""
 
-
+  
   if all_jobs_done:
     print ""
     print "All jobs are finished."

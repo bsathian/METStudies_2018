@@ -446,7 +446,7 @@ vector<vector<vector<vector<TH1D*>>>> create_met_histograms_vector(int nEtaRegio
       TString name2 = base + "SumET";
       TString name3 = base + "METPhi";
       vector<vector<TH1D*>> vTemp1;
-      vTemp1.push_back(create_histogram_vector(name1, 80, 0, 400, nHists));
+      vTemp1.push_back(create_histogram_vector(name1, 40, 0, 400, nHists));
       vTemp1.push_back(create_histogram_vector(name2, 200, 0, 2000, nHists));
       vTemp1.push_back(create_histogram_vector(name3, 40, -3.142, 3.142, nHists));
       vTemp2.push_back(vTemp1);

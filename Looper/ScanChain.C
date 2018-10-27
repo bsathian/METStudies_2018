@@ -241,10 +241,9 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
       cout << event << " / " << nEventsTree << endl;
 
-      if (selection == 2) { // fill histos for PU reweighting
-        fill_histograms(hNVtx, nvtx, weight);
-	continue;
-      }
+      fill_histograms(hNVtx, nvtx, weight);
+      if (selection == 2)	continue;
+      
 
       // Done with selection, now fill histograms
       int nJet = nJets(isElEvt, id1, id2);
