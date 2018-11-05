@@ -43,10 +43,12 @@ data = {
 }
 
 mc = {
-	"DY" : { "dirs" : ["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "DYJetsToLL*MINIAODSIM_CMS4_V10-02-01_allPfCands", "xs" : 5765.4, "n_events" : 43814247, "frac_neg" : 0.0, "fpo" : 5}, 
+	"DY" : { "dirs" : ["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "DYJetsToLL*MINIAODSIM_CMS4_V10-02-01_allPfCands", "xs" : 5765.4, "n_events" : 43814247, "frac_neg" : 0.00247794, "fpo" : 5},
+	"DY_RelVal" : { "dirs" : ["RelValZEE_13_CMSSW_10_2_5-102X_upgrade2018_realistic_v15_Autumn18_HS-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "*RelValZEE*", "xs" : 1372, "n_events" : 200000, "frac_neg" : 0.00, "fpo" : 1}, 
 }
 
 def scale1fb(dict):
+  print (dict["xs"] * 1000.) / (dict["n_events"] * (1 - (2*dict["frac_neg"])))
   return (dict["xs"] * 1000.) / (dict["n_events"] * (1 - (2*dict["frac_neg"])))
 
 basepath = "/hadoop/cms/store/user/smay/ProjectMetis/"

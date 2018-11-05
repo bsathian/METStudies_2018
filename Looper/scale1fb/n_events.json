@@ -1,0 +1,12 @@
+{
+    "/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1/MINIAODSIM": {
+        "n_events_neg": 108569, 
+        "n_events_pos": 43796034, 
+        "n_events_tot": 43814247
+    }, 
+    "/RelValZEE_13/CMSSW_10_2_5-102X_upgrade2018_realistic_v15_Autumn18_HS-v1/MINIAODSIM": {
+        "n_events_neg": 0, 
+        "n_events_pos": 200000, 
+        "n_events_tot": 200000
+    }
+}

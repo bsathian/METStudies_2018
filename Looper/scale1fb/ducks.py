@@ -14,10 +14,7 @@ input_jsons = ["mc_samples.json"]
 output_json = "n_events.json"
 
 with open(output_json, "r") as f_in:
-  try:
-    mc_samples = json.load(f_in)
-  except ValueError:
-    mc_samples = {}
+  mc_samples = json.load(f_in)
 
 def get_negative_events(files):
   n_events_neg = 0
@@ -44,15 +41,21 @@ for input_json in input_jsons:
     for key, dict in datasets["processes"].iteritems():
       if key == "data":
 	continue
-      if key in mc_samples:
-	print "%s already found in samples list\n" % key
-	continue
       for sample in dict["datasets"]:
-	mc_samples[sample] = { "n_events_tot" : -1, "n_events_neg" : -1 , "n_events_pos" : -1}
+        if sample in mc_samples.keys():
+          print "%s already found in samples list\n" % sample
+          continue
+        else:
+          print "Adding %s to list of mc samples\n" % sample
+          mc_samples[sample] = { "n_events_tot" : -1, "n_events_neg" : -1 , "n_events_pos" : -1}
 
 for key, dict in mc_samples.iteritems():
   if dict["n_events_neg"] + dict["n_events_pos"] == dict["n_events_tot"]:
-    print "%s has trustworthy n_events data, skipping\n\n" % key
+    #print "%s has trustworthy n_events data, skipping\n\n" % key
+    continue
+  elif dict["n_events_tot"] > 0 and dict["n_events_pos"] > 0:
+    print "%s has already had n_event info calculated, but n_neg + n_pos != n_total" % key
+    print "Probably want to check it manually"
     continue
   print "Calculating n_events for %s\n\n" % key
   sample = DBSSample(dataset=key)
