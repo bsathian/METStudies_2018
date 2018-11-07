@@ -187,6 +187,10 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
         else continue;
       }
 
+      if (selection == 3) {
+	if (!isElEvt)				continue;
+      }
+
       // Check filters
       if (firstGoodVertex() == -1)		continue;
       if (!filt_goodVertices())          	continue;

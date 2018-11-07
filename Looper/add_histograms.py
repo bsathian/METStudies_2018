@@ -25,10 +25,11 @@ data = {
 }
 
 mc = {
-	"DY" : "DY"
+	"DY" : "DY",
+	"DY_RelVal_Zee" : "DY_RelVal",
 }
 
-nPar = 20
+nPar = 8
 
 # Make data files by era
 if not args.skip_data:

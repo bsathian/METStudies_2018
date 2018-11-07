@@ -14,7 +14,7 @@ tar_path = "package.tar.gz"
 hadoop_path = "MET_2018"
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--selection", help = "1: regular, 2: just fill nvtx hist for PU reweighting", type=str)
+parser.add_argument("--selection", help = "1: regular, 2: just fill nvtx hist for PU reweighting, 3: Z->ee", type=str)
 parser.add_argument("--test_run", help = "just submit for DoubleMuon and EGamma 2018 Run A", action="store_true")
 parser.add_argument("--mc_only", help = "only run mc", action="store_true")
 parser.add_argument("--no_tar", help = "don't remake tar file", action="store_true")
@@ -25,10 +25,11 @@ args = parser.parse_args()
 if not args.no_tar:
   os.system("XZ_OPT=-9 tar -Jc --exclude='.git' --exclude='*.tar*' -f package.tar.gz analyze *_JSON_snt.txt pileupReweight*.root CORE/")
 
-job_tag = "MET_v2"
+job_tag = "MET_v3"
 if args.selection == 2:
   job_tag += "pu"
-
+if args.selection == 3:
+  job_tag += "Zee"
 
 eras = "A,B,C,D"
 eras = eras.split(",")
@@ -68,7 +69,7 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
-              files_per_output = info["fpo"] if args.selection == 1 else info["fpo"] * 3,
+              files_per_output = info["fpo"] if args.selection == 1 or args.selection == 3 else info["fpo"] * 3,
               output_name = output_name,
               tag = job_tag,
               cmssw_version = "CMSSW_9_4_9", # doesn't do anything
@@ -100,7 +101,8 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
-              files_per_output = 10 if args.selection == 1 else 30,
+	      files_per_output = 1,
+              #files_per_output = 1 if (args.selection == 1 or args.selection == 3) else 30,
               output_name = output_name,
               tag = job_tag,
               cmssw_version = "CMSSW_9_4_9", # doesn't do anything

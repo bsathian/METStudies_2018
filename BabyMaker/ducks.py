@@ -29,7 +29,11 @@ if __name__ == "__main__":
 
     dataset_names = ["/{0}/{1}-PromptReco-{2}/MINIAOD".format(x[0],x[1][0],x[1][1]) for x in itertools.product(pds,proc_vers)]
 
-    mc_samples = ["/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1/MINIAODSIM"]
+    mc_samples = [
+		"/DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8/RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1/MINIAODSIM", 
+		#"/RelValZEE_13/CMSSW_10_2_5-PU25ns_102X_upgrade2018_realistic_v15_HS-v1/MINIAODSIM",
+		"/RelValZEE_13/CMSSW_10_2_5-102X_upgrade2018_realistic_v15_Autumn18_HS-v1/MINIAODSIM"
+		]
 
     cmsswver = "CMSSW_10_2_5"
     tarfile = tar_name
@@ -53,7 +57,7 @@ if __name__ == "__main__":
 
                     #pset = "/home/users/sjmay/Commissioning2017/Commissioning2017_MET/BabyMaker/CMSSW_10_1_0/src/CMS3/NtupleMaker/test/main_pset.py",
                     pset = cmsswver + "/src/CMS3/NtupleMaker/test/main_pset.py",
-                    pset_args = "data=False prompt=False",
+                    pset_args = "data=False prompt=False relval=True" if "RelVal" in dsname else "data=False prompt=False",
                     cmssw_version = cmsswver,
                     publish_to_dis = False,
                     tarfile = tarfile,

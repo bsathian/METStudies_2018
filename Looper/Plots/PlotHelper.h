@@ -28,7 +28,7 @@
 
 using namespace std;
 
-const vector<int> dataColors = {kBlack, kRed, kGreen, kBlue, kGray};
+const vector<int> dataColors = {kRed - 7, kAzure + 1, kGreen, kBlue, kGray};
 
 class Comparison 
 {
@@ -164,7 +164,7 @@ class Comparison
 
     vector<TString> mRatUncLabel;
 
-    const double topSpace = 0.15;
+    const double topSpace = 0.5;
     const double botSpace = 0.05;
     const double fs = 0.04;
 };
@@ -337,7 +337,7 @@ void Comparison::default_options(TCanvas* c1)
   mYLimRange.reserve(2);
   mScale = 1;
   mScaled = false;
-  mColor1 = kAzure+1;
+  mColor1 = kGray;
   mColor2 = kBlack;
 
   mXLabel = "";
@@ -556,8 +556,8 @@ inline
 void Comparison::set_histogram_options(int color1, int color2)
 {
   mHMC->SetFillColor(mColor1);
-  mHMC->SetLineColor(mColor1);
-  mHMC->SetMarkerColor(mColor1);
+  mHMC->SetLineColor(kBlack);
+  mHMC->SetMarkerColor(kBlack);
   if (mBothData) mHMC->SetMarkerStyle(20);
   mHMC->GetYaxis()->SetTitle(mYLabel);
   mHMC->GetYaxis()->SetTitleSize(mYLabelFontSize);
@@ -581,7 +581,7 @@ void Comparison::set_histogram_options(int color1, int color2)
     }
   }
 
-  vector<int> vDefaultColors = {kRed - 7, kAzure+1, kCyan-7, kViolet -4, kOrange+1, kGreen-3, kTeal+3, kBlue-6};
+  vector<int> vDefaultColors = {kRed - 7, kAzure + 1, kCyan-7, kViolet -4, kOrange+1, kGreen-3, kTeal+3, kBlue-6};
   for (int i=0; i<mVHMC.size(); i++) {
     mVHMC[i]->SetFillColor(vDefaultColors[i]);
     mVHMC[i]->SetLineColor(vDefaultColors[i]);
@@ -642,6 +642,9 @@ void Comparison::draw_main_histograms()
   if (!mMultipleComparisons) {
     if (!mBothData) mStack->Draw("SAME, HIST");
     else mHMC->Draw("SAME, E");
+  }
+  else {
+    mHMC->Draw("SAME, HIST");
   }
   //mStack->GetXaxis()->SetRange(mXBinRange[0],mXBinRange[1]);
   //mStack->SetMinimum(mYLimRange[0]);
@@ -825,16 +828,22 @@ void Comparison::annotate_plot()
     double j = mVHData.size()*0.05;
     TLegend* l1;
     if (!mLegendLowerRight)
-      l1 = new TLegend(0.70, 0.75-j, 0.92, 0.89);
+      l1 = new TLegend(0.60, 0.75-j, 0.92, 0.89);
     else
       l1 = new TLegend(0.70, 0.06, 0.92, 0.23+j); 
     for (int i=0; i<mVHData.size(); i++)
       l1->AddEntry(mVHData[i], mVLegendLabels[i], "lep");
     int idxMC = mVHData.size();
     cout << "setting legend labels" << endl;
+    if (mVHMC.size() == 0)
+      l1->AddEntry(mHMC, mVLegendLabels[mVHData.size()], "f");
     for (int i=0; i<mVHMC.size(); i++) {
       cout << "inside loop" << endl;
-      if (mMultipleComparisons) break;
+     
+      if (mMultipleComparisons) { 
+	//l1->AddEntry(mHMC, mVLegendLabels[mVHData.size()], "f");
+	break;
+      }
       if (!mBothData) l1->AddEntry(mVHMC[i], mVLegendLabels[idxMC+i], "f");
       else l1->AddEntry(mHMC, mVLegendLabels[idxMC], "lep");
     }
@@ -917,7 +926,7 @@ void Comparison::make_rat_histogram(TH1D* hData, TH1D* hMC)
     if (!mMultipleComparisons)
       mVHRat[i]->Divide(hMC);
     else
-      mVHRat[i]->Divide(mVHMC[i]);
+      mVHRat[i]->Divide(mHMC);
     mVHRat[i]->SetMarkerStyle(20);
     mVHRat[i]->SetMarkerColor(dataColors[i]);
     mVHRat[i]->SetFillColor(dataColors[i]);
