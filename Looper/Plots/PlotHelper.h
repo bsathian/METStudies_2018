@@ -28,7 +28,8 @@
 
 using namespace std;
 
-const vector<int> dataColors = {kRed - 7, kAzure + 1, kGreen, kBlue, kGray};
+const vector<int> dataColors = {kBlack, kRed, kBlue, kGreen, kGray};
+//const vector<int> dataColors = {kRed - 7, kAzure + 1, kGreen, kBlue, kGray};
 
 class Comparison 
 {
@@ -556,8 +557,8 @@ inline
 void Comparison::set_histogram_options(int color1, int color2)
 {
   mHMC->SetFillColor(mColor1);
-  mHMC->SetLineColor(kBlack);
-  mHMC->SetMarkerColor(kBlack);
+  mHMC->SetLineColor(mColor1);
+  mHMC->SetMarkerColor(mColor1);
   if (mBothData) mHMC->SetMarkerStyle(20);
   mHMC->GetYaxis()->SetTitle(mYLabel);
   mHMC->GetYaxis()->SetTitleSize(mYLabelFontSize);

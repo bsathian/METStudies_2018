@@ -23,9 +23,9 @@ args = parser.parse_args()
 
 # Make tarball
 if not args.no_tar:
-  os.system("XZ_OPT=-9 tar -Jc --exclude='.git' --exclude='*.tar*' -f package.tar.gz analyze *_JSON_snt.txt pileupReweight*.root CORE/")
+  os.system("XZ_OPT=-9 tar -Jc --exclude='.git' --exclude='*.tar*' -f package.tar.gz analyze *_JSON_snt.txt pileupReweight*.root CORE/ jetCorrections/")
 
-job_tag = "MET_v3"
+job_tag = "MET_v6"
 if args.selection == 2:
   job_tag += "pu"
 if args.selection == 3:
@@ -37,14 +37,17 @@ if args.test_run:
   eras = ["A"]
 
 data = {
-	"A" : { "dirs" : ["EGamma_Run2018A-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018A-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018A-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018A*MINIAOD_CMS4_V10-02-01_allPfCands"},
-	"B" : { "dirs" :  ["EGamma_Run2018B-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018B-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018B-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018B-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018B*MINIAOD_CMS4_V10-02-01_allPfCands"},
-	"C" : { "dirs" : ["EGamma_Run2018C-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018C-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018C-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018C*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	#"A" : { "dirs" : ["EGamma_Run2018A-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018A-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018A-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018A*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	#"B" : { "dirs" :  ["EGamma_Run2018B-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018B-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018B-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018B-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018B*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	#"C" : { "dirs" : ["EGamma_Run2018C-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018C-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018C-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-PromptReco-v3_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018C*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	"A" : { "dirs" : ["EGamma_Run2018A-17Sep2018-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018A-17Sep2018-v2_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018A*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	"B" : { "dirs" : ["EGamma_Run2018B-17Sep2018-v1_MINIBOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018B-17Sep2018-v1_MINIBOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018B*MINIAOD_CMS4_V10-02-01_allPfCands"},
+	"C" : { "dirs" : ["EGamma_Run2018C-17Sep2018-v1_MINICOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018C-17Sep2018-v1_MINICOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018C*MINIAOD_CMS4_V10-02-01_allPfCands"},
 	"D" : { "dirs" : ["EGamma_Run2018D-PromptReco-v1_MINIAOD_CMS4_V10-02-01_allPfCands", "EGamma_Run2018D-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands", "DoubleMuon_Run2018D-PromptReco-v2_MINIAOD_CMS4_V10-02-01_allPfCands"], "globber" : "*2018D*MINIAOD_CMS4_V10-02-01_allPfCands"},
 }
 
 mc = {
-	"DY" : { "dirs" : ["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "DYJetsToLL*MINIAODSIM_CMS4_V10-02-01_allPfCands", "xs" : 5765.4, "n_events" : 43814247, "frac_neg" : 0.00247794, "fpo" : 5},
+	"DY" : { "dirs" : ["DYJetsToLL_M-50_TuneCP5_13TeV-madgraphMLM-pythia8_RunIIFall18MiniAOD-102X_upgrade2018_realistic_v12_ext1-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "DYJetsToLL*MINIAODSIM_CMS4_V10-02-01_allPfCands", "xs" : 5765.4, "n_events" : 43814247, "frac_neg" : 0.00247794, "fpo" : 1},
 	"DY_RelVal" : { "dirs" : ["RelValZEE_13_CMSSW_10_2_5-102X_upgrade2018_realistic_v15_Autumn18_HS-v1_MINIAODSIM_CMS4_V10-02-01_allPfCands"], "globber" : "*RelValZEE*", "xs" : 1372, "n_events" : 200000, "frac_neg" : 0.00, "fpo" : 1}, 
 }
 
@@ -69,7 +72,8 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
-              files_per_output = info["fpo"] if args.selection == 1 or args.selection == 3 else info["fpo"] * 3,
+	      files_per_output = 1,
+              #files_per_output = info["fpo"] if args.selection == 1 or args.selection == 3 else info["fpo"] * 3,
               output_name = output_name,
               tag = job_tag,
               cmssw_version = "CMSSW_9_4_9", # doesn't do anything
@@ -101,8 +105,8 @@ while True:
               sample = sample,
               open_dataset = False,
               flush = True,
-	      files_per_output = 1,
-              #files_per_output = 1 if (args.selection == 1 or args.selection == 3) else 30,
+	      files_per_output = 5,
+              #files_per_output = 10 if (args.selection == 1 or args.selection == 3) else 30,
               output_name = output_name,
               tag = job_tag,
               cmssw_version = "CMSSW_9_4_9", # doesn't do anything

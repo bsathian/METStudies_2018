@@ -22,7 +22,8 @@
 #include "CORE/MetSelections.cc"
 #include "CORE/VertexSelections.cc"
 
-#include "ScanChain.h"
+//#include "ScanChain.h"
+#include "MetHelper.h"
 
 using namespace std;
 using namespace tas;
@@ -98,6 +99,25 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
   vector<TH2D*> hJetPtPhi = create_2Dhistogram_vector("hJetPtPhi", 50, 0, 500, 50, -3.142, 3.142, nHists);
   vector<TH1D*> hJetUncorrPt = create_histogram_vector("hJetUncorrPt", 100, 0, 500, nHists);
 
+  vector<TH1D*> hJet_Emfrac = create_histogram_vector("hJet_Emfrac", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Emfrac = create_histogram_vector("hJet_Neutral_Emfrac", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Hadfrac = create_histogram_vector("hJet_Neutral_Hadfrac", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Charged_Hadfrac = create_histogram_vector("hJet_Charged_Hadfrac", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Emfrac_hf = create_histogram_vector("hJet_Neutral_Emfrac_hf", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Hadfrac_hf = create_histogram_vector("hJet_Neutral_Hadfrac_hf", 100, 0, 1, nHists);
+
+  vector<TH1D*> hJet_Neutral_Emfrac_central = create_histogram_vector("hJet_Neutral_Emfrac_central", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Hadfrac_central = create_histogram_vector("hJet_Neutral_Hadfrac_central", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Emfrac_forward = create_histogram_vector("hJet_Neutral_Emfrac_forward", 100, 0, 1, nHists);
+  vector<TH1D*> hJet_Neutral_Hadfrac_forward = create_histogram_vector("hJet_Neutral_Hadfrac_forward", 100, 0, 1, nHists);
+
+  // Other
+  vector<TH1D*> hVertexZ = create_histogram_vector("hVertexZ", 100, -10, 10, nHists);
+  vector<TH1D*> hVertexZ_forwardPhoton = create_histogram_vector("hVertexZ_forwardPhoton", 100, -10, 10, nHists);
+  
+  MetHelper* mV32 = new MetHelper("V32", nHists, "V32", "V32", 0);
+  mV32->create_raw_met_histograms();
+
   double vtxBins[] = {0,10,15,20,25,30,35,40,45,50,60,75,100};
   int nVtxBins = (sizeof(vtxBins)/sizeof(vtxBins[0]))-1;
   vector<TH1D*> hNVtx;
@@ -153,7 +173,8 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       gconf.year = 2017;
     }
     else if (currentFileName.Contains("2018")) {
-      json_file = "Cert_314472-322633_13TeV_PromptReco_Collisions18_JSON_snt.txt";
+      //json_file = "Cert_314472-322633_13TeV_PromptReco_Collisions18_JSON_snt.txt";
+      json_file = "Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON_snt.txt";
       set_goodrun_file(json_file);
       gconf.year = 2018;
     } 
@@ -250,7 +271,17 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       
 
       // Done with selection, now fill histograms
+      double lead_jet_eta = cms3.pfjets_p4().size() > 0 ? abs(cms3.pfjets_p4().at(0).eta()) : 999;
+      double pu = cms3.evt_nvtxs();
+
       int nJet = nJets(isElEvt, id1, id2);
+
+      vector<double> vId = {pu, lead_jet_eta};      
+
+      mV32->fill_met_histograms(currentFileName, isElEvt, id1, id2, nJet, weight, vId); 
+      mV32->fill_raw_met_histograms(isElEvt, id1, id2, nJet, weight);
+      //ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fMET = t1CMET(currentFileName, 0, "V6", "V6", 0);
+      //fill_histograms(hT1CMET, fMET.pt(), weight);
 
 
       int nCands = pfcands_p4().size();
@@ -272,8 +303,37 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 	fill_histograms(hJetPt, jet_p4.pt(), weight);
 	fill_histograms(hJetEta, abs(cms3.pfjets_p4().at(i).eta()), weight);
  
+	float emfrac = (cms3.pfjets_chargedEmE().at(i) + cms3.pfjets_neutralEmE().at(i)) / jet_p4.E();
+        float neutral_emfrac = cms3.pfjets_neutralEmE().at(i) / jet_p4.E();
+        float neutral_hadfrac = cms3.pfjets_neutralHadronE().at(i) / jet_p4.E();
+        float charged_hadfrac = cms3.pfjets_chargedHadronE().at(i) / jet_p4.E();
+        float neutral_emfrac_hf = cms3.pfjets_hfEmE().at(i) / jet_p4.E();
+        float neutral_hadfrac_hf = cms3.pfjets_hfHadronE().at(i) / jet_p4.E();
+
+        if (abs(cms3.pfjets_p4().at(i).eta()) <= 3.0) {
+          fill_histograms(hJet_Emfrac, emfrac, weight);
+          fill_histograms(hJet_Neutral_Emfrac, neutral_emfrac, weight);
+          fill_histograms(hJet_Neutral_Hadfrac, neutral_hadfrac, weight);
+          fill_histograms(hJet_Charged_Hadfrac, charged_hadfrac, weight);
+        }
+        else {
+          fill_histograms(hJet_Neutral_Emfrac_hf, neutral_emfrac_hf, weight);
+          fill_histograms(hJet_Neutral_Hadfrac_hf, neutral_hadfrac_hf, weight);
+        }
+
+        if (abs(cms3.pfjets_p4().at(i).eta()) <= 2.7) {
+          fill_histograms(hJet_Neutral_Emfrac_central, neutral_emfrac, weight);
+          fill_histograms(hJet_Neutral_Hadfrac_central, neutral_hadfrac, weight);
+        }
+        else if (abs(cms3.pfjets_p4().at(i).eta()) <= 3.0) {
+          fill_histograms(hJet_Neutral_Emfrac_forward, neutral_emfrac, weight);
+          fill_histograms(hJet_Neutral_Hadfrac_forward, neutral_hadfrac, weight);
+        }
+
+
       }
 
+      fill_histograms(hVertexZ, cms3.vtxs_position().at(0).z(), weight);
       for (int i=0; i<nCands; i++) { // begin pf cand loop
 	ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fourV = cms3.pfcands_p4().at(i);
         double pt = fourV.Pt();
@@ -287,6 +347,10 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 	if (abs(pfcands_charge().at(i)) > 0)             { candIdx = 0; nCCands++; }        // charged candidate
         else if (particleId == 22 )                      { candIdx = 1; nPCands++; }        // photon candidate
         else                                             { candIdx = 2; nNCands++; }        // neutral hadron candidate
+
+	if (candIdx == 1 && eta > 3.5) {
+	  fill_histograms(hVertexZ_forwardPhoton, cms3.vtxs_position().at(cms3.pfcands_IdAssociatedPV().at(i)).z(), weight);
+	}
 
 	fill_histograms(vhCandpT[candIdx], pt, weight);
 	fill_histograms(vhCandeta[candIdx], eta, weight);
