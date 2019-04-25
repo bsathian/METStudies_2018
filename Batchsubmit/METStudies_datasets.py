@@ -55,7 +55,7 @@ def get(data = [],mc = [],year = []):
     elif len(mc) > 0 and mc[0] == "all":
         for dsname,datasets in yearDatasets.items():
             if "SIM" in datasets[0]:
-                finalDataset.append(dataset)
+                finalDataset.append(datasets)
 
     elif len(data) > 0:
         for dataEntry in data:

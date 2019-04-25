@@ -51,7 +51,7 @@ else:
 
 while True:
     all_jobs_done = True
-    for dsname in mcsToProcess:
+    for dsname in mcToProcess:
         if args.validation:
             break
         sample = SNTSample(dataset = dsname)
