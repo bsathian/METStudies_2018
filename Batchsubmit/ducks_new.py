@@ -48,7 +48,7 @@ else:
     mcToProcess = METStudies.get(mc = "all",year = year)
     dataToProcess = METStudies.get(data = eras,year = year)
 
-
+total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in mcToProcess:
@@ -98,7 +98,7 @@ while True:
 
         if args.validation:
             job_args = 'none 5 1'
-        elif args.validate.recipe:
+        elif args.validate_recipe:
             job_args = 'none 7 1'
         elif not args.reweight:
             job_args = 'none 1 1'
