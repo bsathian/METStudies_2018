@@ -65,11 +65,11 @@ while True:
             output_name = "Zll_histograms.root"
 
         else:
-            job_args = "%s %d %.12f" % ("none", 2, weight1fb)
+            job_args = "%s %d %.12f" % ("none", 0, weight1fb)
             output_name = "Zll_histograms_All.root"
 
         task = CondorTask(
-                sample = sample
+                sample = sample,
                 open_dataset = False,
                 flush = True,
                 files_per_output = 1,
@@ -103,10 +103,10 @@ while True:
         elif not args.reweight:
             job_args = 'none 1 1'
         else:
-            job_args = 'none 2 1'
+            job_args = 'none 0 1'
 
         task = CondorTask(
-                sample = sample
+                sample = sample,
                 open_dataset = False,
                 flush = True,
                 files_per_output = 1,
@@ -122,7 +122,7 @@ while True:
             print("Job %s still running." % job_tag)
             all_jobs_done = False
         total_summary[dsname] = task.get_task_summary()
-        if task.complete():
+        if task.complete()0
             print ""
             print "Job={} finished".format(job_tag)
 

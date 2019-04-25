@@ -48,11 +48,11 @@ def get(data = [],mc = [],year = []):
     finalDataset = []
 
     #Assumption : I don't fuck up grouping datasets and ensure MCs are with MCs and data with data
-    if data[0] == "all":
+    if len(data) > 0 and data[0] == "all":
         for dsname,datasets in yearDatasets.items():
             if "SIM" not in datasets[0]:
                 finalDataset.append(datasets)
-    elif mc[0] == "all":
+    elif len(mc) > 0 and mc[0] == "all":
         for dsname,datasets in yearDatasets.items():
             if "SIM" in datasets[0]:
                 finalDataset.append(dataset)

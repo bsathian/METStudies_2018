@@ -21,7 +21,7 @@ echo "[wrapper] SCALE1FB           = " ${SCALE1FB}
 
 echo "[wrapper] printing env"
 printenv
-echo 
+echo
 
 echo "[wrapper] hostname  = " `hostname`
 echo "[wrapper] date      = " `date`
@@ -37,11 +37,11 @@ eval `scramv1 runtime -sh`
 popd
 
 # Untar
-tar -xvf package.tar.gz
+tar -xzvf package.tar.gz
 
 echo "[wrapper] running analyze now"
 echo "[wrapper] ./analyze ${INPUTFILENAMES} ${OUTPUTFILENAME} ${INDEX} ${WEIGHTFILE} ${SELECTION} ${SCALE1FB}"
-./analyze "${INPUTFILENAMES}" "${OUTPUTFILENAME}" "${INDEX}" "${WEIGHTFILE}" "${SELECTION}" "${SCALE1FB}" 
+./analyze "${INPUTFILENAMES}" "${OUTPUTFILENAME}" "${INDEX}" "${WEIGHTFILE}" "${SELECTION}" "${SCALE1FB}"
 
 if [ "$?" != "0" ]; then
     echo "Removing output file because cmsRun crashed with exit code $?"
