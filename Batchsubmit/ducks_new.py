@@ -122,7 +122,7 @@ while True:
             print("Job %s still running." % job_tag)
             all_jobs_done = False
         total_summary[dsname] = task.get_task_summary()
-        if task.complete()0
+        if task.complete():
             print ""
             print "Job={} finished".format(job_tag)
 
