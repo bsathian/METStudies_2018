@@ -48,7 +48,7 @@ else:
     mcToProcess = METStudies.get(mc = "all",year = year)
     dataToProcess = METStudies.get(data = eras,year = year)
 
-
+total_summary = {}
 while True:
     all_jobs_done = True
     for dsname in mcToProcess:
