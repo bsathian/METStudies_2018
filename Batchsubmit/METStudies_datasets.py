@@ -51,11 +51,11 @@ def get(data = [],mc = [],year = []):
     if len(data) > 0 and data[0] == "all":
         for dsname,datasets in yearDatasets.items():
             if "SIM" not in datasets[0]:
-                finalDataset.append(datasets)
+                finalDataset.extend(datasets)
     elif len(mc) > 0 and mc[0] == "all":
         for dsname,datasets in yearDatasets.items():
             if "SIM" in datasets[0]:
-                finalDataset.append(datasets)
+                finalDataset.extend(datasets)
 
     elif len(data) > 0:
         for dataEntry in data:
@@ -74,7 +74,7 @@ def get(data = [],mc = [],year = []):
 
     else: #All datasets for that year
         for dsname,datasets in yearDatasets.items():
-            finalDataset.exted(datasets)
+            finalDataset.extend(datasets)
 
 
     return finalDataset
