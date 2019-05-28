@@ -467,18 +467,18 @@ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CMET(TString currentFi
   else if(currentFileName.Contains("2018C"))
   {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + jec_version_data + "_DATA_L1FastJet_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + jec_version_data + "_DATA_L2Relative_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + jec_version_data + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunC" + jec_version_data + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt");
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunC" + JEC_version_data + "_DATA_Uncertainty_AK4PFchs.txt";
   }
   else if(currentFileName.Contains("2018D"))
   {
       jetcorr_filenames_pfL1FastJetL2L3.clear();
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + jec_version_data + "_DATA_L1FastJet_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + jec_version_data + "_DATA_L2Relative_AK4PFchs.txt");
-      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + jec_version_data + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunD" + jec_version_data + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt");
+      jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt");
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunD" + JEC_version_data + "_DATA_Uncertainty_AK4PFchs.txt";
   }
 
 
