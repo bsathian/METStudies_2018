@@ -115,8 +115,8 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
   vector<TH1D*> hVertexZ = create_histogram_vector("hVertexZ", 100, -10, 10, nHists);
   vector<TH1D*> hVertexZ_forwardPhoton = create_histogram_vector("hVertexZ_forwardPhoton", 100, -10, 10, nHists);
   
-  MetHelper* mV32 = new MetHelper("V32", nHists, "V32", "V32", 0);
-  mV32->create_raw_met_histograms();
+  MetHelper* mV8 = new MetHelper("V8", nHists, "V8", "V8", 0);
+  mV8->create_raw_met_histograms();
 
   double vtxBins[] = {0,10,15,20,25,30,35,40,45,50,60,75,100};
   int nVtxBins = (sizeof(vtxBins)/sizeof(vtxBins[0]))-1;
@@ -278,8 +278,8 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
       vector<double> vId = {pu, lead_jet_eta};      
 
-      mV32->fill_met_histograms(currentFileName, isElEvt, id1, id2, nJet, weight, vId); 
-      mV32->fill_raw_met_histograms(isElEvt, id1, id2, nJet, weight);
+      mV8->fill_met_histograms(currentFileName, isElEvt, id1, id2, nJet, weight, vId); 
+      mV8->fill_raw_met_histograms(isElEvt, id1, id2, nJet, weight);
       //ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fMET = t1CMET(currentFileName, 0, "V6", "V6", 0);
       //fill_histograms(hT1CMET, fMET.pt(), weight);
 
