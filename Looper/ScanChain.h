@@ -397,57 +397,7 @@ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CMET(TString currentFi
   FactorizedJetCorrector* jet_corrector(0);
   JetCorrectionUncertainty jet_uncertainty;
 
-  if (currentFileName.Contains("2017B")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-  }else if (currentFileName.Contains("2017C")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017C_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017C_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017C_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017C_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-  }else if (currentFileName.Contains("2017D")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-  }else if (currentFileName.Contains("2017DE")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017DE_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-  }else if (currentFileName.Contains("2017F")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-  }
-  else if (currentFileName.Contains("2018A") || currentFileName.Contains("2018B") || currentFileName.Contains("2018C") || currentFileName.Contains("2018D")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L3Absolute_AK4PFchs.txt"  );
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_L2L3Residual_AK4PFchs.txt");
-    jetcorr_uncertainty_filename = "jetCorrections/Fall17_17Nov2017F_" + JEC_version_data + "_DATA_Uncertainty_AK4PFchs.txt";
-  }
-  else if (currentFileName.Contains("Fall17") || currentFileName.Contains("Fall18") || currentFileName.Contains("Autumn18")) {
-    jetcorr_filenames_pfL1FastJetL2L3.clear();
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L1FastJet_AK4PFchs.txt");
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L2Relative_AK4PFchs.txt");
-    jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L3Absolute_AK4PFchs.txt");
-    jetcorr_uncertainty_filename = "jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_Uncertainty_AK4PFchs.txt";
-   }
-  else {
-    cout << "Did not grab JECs" << endl; // should not happen
-  }
-
- if (currentFileName.Contains("2017B")) {
+   if (currentFileName.Contains("2017B")) {
     jetcorr_filenames_pfL1FastJetL2L3.clear();
     jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L1FastJet_AK4PFchs.txt"   );
     jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017B_" + JEC_version_data + "_DATA_L2Relative_AK4PFchs.txt"  );
