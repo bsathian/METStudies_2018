@@ -24,4 +24,26 @@ ds:2017WW
 /WW_TuneCP5_13TeV-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM
 ds:2017WZ
 /WZ_TuneCP5_13TeV-pythia8/RunIIFall17MiniAODv2-PU2017_12Apr2018_94X_mc2017_realistic_v14-v1/MINIAODSIM
+ds:2018DoubleEG_eraA
+/EGamma/Run2018A-17Sep2018-v2/MINIAOD
+ds:2018DoubleEG_eraB
+/EGamma/Run2018B-17Sep2018-v1/MINIAOD
+ds:2018DoubleEG_eraC
+/EGamma/Run2018C-17Sep2018-v1/MINIAOD
+ds:2018DoubleEG_eraD
+/EGamma/Run2018D-17Sep2018-v1/MINIAOD
+ds:2018DoubleMuon_eraA
+/DoubleMuon/Run2018A-17Sep2018-v1/MINIAOD
+ds:2018DoubleMuon_eraB
+/DoubleMuon/Run2018B-17Sep2018-v1/MINIAOD
+ds:2018DoubleMuon_eraC
+/DoubleMuon/Run2018C-17Sep2018-v1/MINIAOD
+ds:2018DoubleMuon_eraD
+/DoubleMuon/Run2018D-PromptReco-v2/MINIAOD
+ds:2018DY
+/DYJetsToLL_M-50_TuneCP5_13TeV-amcatnloFXFX-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM
+ds:2018WW
+/WW_TuneCP5_13TeV-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM
+ds:2018WZ
+/WZ_TuneCP5_13TeV-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v3/MINIAODSIM
 

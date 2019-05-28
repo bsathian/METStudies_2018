@@ -81,4 +81,4 @@ def get(data = [],mc = [],year = []):
 
 if __name__ == "__main__":
     #print(get(mc = ["SingleTop","GammaJets","WGamma"],year = 2017))
-    print(get(mc = "DoubleEG",year = 2017))
+    print(get(mc = "DoubleEG",year = 2018))
