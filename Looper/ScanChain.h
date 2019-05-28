@@ -437,7 +437,7 @@ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CMET(TString currentFi
     jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L1FastJet_AK4PFchs.txt");
     jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L2Relative_AK4PFchs.txt");
     jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_L3Absolute_AK4PFchs.txt");
-    jetcorr_uncertainty_filename = "jetCorrections/Fall17_17Nov2017_" + version_mc + "_MC_Uncertainty_AK4PFchs.txt";
+    jetcorr_uncertainty_filename = "jetCorrections/Fall17_17Nov2017_" + JEC_version_mc + "_MC_Uncertainty_AK4PFchs.txt";
    }
   else if (currentFilename.Contains("Autumn18"))
   {
