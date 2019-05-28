@@ -172,9 +172,9 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       set_goodrun_file(json_file);
       gconf.year = 2017;
     }
-    else if (currentFileName.Contains("2018")) {
+    else if (currentFileName.Contains("2018") or currentFileName.Contains("Autumn18")) {
       //json_file = "Cert_314472-322633_13TeV_PromptReco_Collisions18_JSON_snt.txt";
-      json_file = "Cert_314472-325175_13TeV_PromptReco_Collisions18_JSON_snt.txt";
+      json_file = "Cert_314472-322633_13TeV_PromptReco_Collisions18_JSON_snt.txt";
       set_goodrun_file(json_file);
       gconf.year = 2018;
     } 
