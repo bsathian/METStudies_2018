@@ -348,7 +348,7 @@ vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> correctedJets(TS
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunA_" + version + "_DATA_L1FastJet_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunA_" + version + "_DATA_L2Relative_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunA_" + version + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunA_" + version_mc + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunA_" + version + "_DATA_Uncertainty_AK4PFchs.txt";
   }
   else if(currentFileName.Contains("2018B"))
   {
@@ -356,7 +356,7 @@ vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> correctedJets(TS
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunB_" + version + "_DATA_L1FastJet_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunB_" + version + "_DATA_L2Relative_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunB_" + version + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunB_" + version_mc + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunB_" + version + "_DATA_Uncertainty_AK4PFchs.txt";
   }
   else if(currentFileName.Contains("2018C"))
   {
@@ -364,7 +364,7 @@ vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> correctedJets(TS
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC_" + version + "_DATA_L1FastJet_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC_" + version + "_DATA_L2Relative_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunC_" + version + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunC_" + version_mc + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunC_" + version + "_DATA_Uncertainty_AK4PFchs.txt";
   }
   else if(currentFileName.Contains("2018D"))
   {
@@ -372,7 +372,7 @@ vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> correctedJets(TS
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD_" + version + "_DATA_L1FastJet_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD_" + version + "_DATA_L2Relative_AK4PFchs.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_RunD_" + version + "_DATA_L3Absolute_AK4PFchs.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunD_" + version_mc + "_DATA_Uncertainty_AK4PFchs.txt";
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_RunD_" + version + "_DATA_Uncertainty_AK4PFchs.txt";
   }
   
   else {
