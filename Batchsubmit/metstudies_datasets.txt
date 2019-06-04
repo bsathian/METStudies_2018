@@ -33,7 +33,7 @@ ds:2018DoubleEG_eraC
 ds:2018DoubleEG_eraD
 /EGamma/Run2018D-PromptReco-v2/MINIAOD
 ds:2018DoubleMuon_eraA
-/DoubleMuon/Run2018A-17Sep2018-v1/MINIAOD
+/DoubleMuon/Run2018A-17Sep2018-v2/MINIAOD
 ds:2018DoubleMuon_eraB
 /DoubleMuon/Run2018B-17Sep2018-v1/MINIAOD
 ds:2018DoubleMuon_eraC
