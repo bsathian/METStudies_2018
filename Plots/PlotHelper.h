@@ -367,6 +367,7 @@ void Comparison::plot1D(int idx)
   compute_flow(mXBinRange);
   draw_main_histograms();
   set_histogram_options(mColor1, mColor2);
+  cout<<"annotating plots"<<endl;
   annotate_plot();
   set_rat_pad(mRatPad);
   make_rat_histogram(mVHData[0], mHMC);
@@ -951,10 +952,11 @@ void Comparison::make_rat_histogram(TH1D* hData, TH1D* hMC)
 inline
 void Comparison::print(int idx)
 {
+ cout<<idx<<endl; 
   if (idx == 0)
     mCanvas->Print((mFilename+"(").c_str());
   else if (idx == 1)
-    mCanvas->Print((mFilename).c_str());
+    mCanvas->Print((mFilename).c_str(),"pdf");
   else if (idx == 2)
     mCanvas->Print((mFilename+")").c_str());
   mCanvas->Clear("D");
