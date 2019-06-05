@@ -691,11 +691,15 @@ void Comparison::draw_2D_histograms(int idx)
   mH2DData->GetYaxis()->SetTitleOffset(1.3);
 
 
-  TLatex* cms = new TLatex(0.11, 0.91, "CMS Preliminary");
+  TLatex* cms = new TLatex(0.11, 0.91, "#scale[1.25]{#font[61]{CMS}} #scale[1.1]{#font[52]{Preliminary}}");
+
   cms->SetTextSize(fs*0.75);
   cms->SetNDC(kTRUE);
   cms->Draw("SAME");
-
+  cms->SetTextAlign(11);
+  cms->SetTextColor(kBlack);
+  cms->SetTextSize(0.04);
+ 
   TLatex* lumi;
   TString lumiText = Form("%.2f",mLumi);
   lumiText += " fb^{-1} (13 TeV)";
@@ -802,10 +806,14 @@ void Comparison::draw_2D_histograms(int idx)
 inline
 void Comparison::annotate_plot()
 {
-  TLatex* cms = new TLatex(0.20, 0.93, "CMS Preliminary");
-  cms->SetTextSize(fs);
+  TLatex* cms = new TLatex(0.11, 0.93, "#scale[1.25]{#font[61]{CMS}} #scale[1.1]{#font[52]{Preliminary}}");
+
+  cms->SetTextSize(fs*0.75);
   cms->SetNDC(kTRUE);
   cms->Draw("SAME");
+  cms->SetTextAlign(11);
+  cms->SetTextColor(kBlack);
+  cms->SetTextSize(0.04);
 
   TLatex* lumi;
   if (mLumi != -1) {
