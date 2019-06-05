@@ -29,6 +29,7 @@
 using namespace std;
 
 const vector<int> dataColors = {kBlack, kRed, kGreen, kBlue, kGray};
+std::array<int, 11> ROOT_PALATE={kSpring-6, kAzure+7, kRed-7, kOrange-2, kCyan-7, kMagenta-7, kTeal+6, kGray+2, kGray, kBlue-2, kRed-2};
 
 class Comparison 
 {
@@ -167,6 +168,7 @@ class Comparison
     const double topSpace = 0.15;
     const double botSpace = 0.05;
     const double fs = 0.04;
+    
 };
 
 
@@ -582,11 +584,11 @@ void Comparison::set_histogram_options(int color1, int color2)
     }
   }
 
-  vector<int> vDefaultColors = {kRed - 7, kAzure+1, kCyan-7, kViolet -4, kOrange+1, kGreen-3, kTeal+3, kBlue-6};
+//  vector<int> vDefaultColors = {kRed - 7, kAzure+1, kCyan-7, kViolet -4, kOrange+1, kGreen-3, kTeal+3, kBlue-6};
   for (int i=0; i<mVHMC.size(); i++) {
-    mVHMC[i]->SetFillColor(vDefaultColors[i]);
-    mVHMC[i]->SetLineColor(vDefaultColors[i]);
-    mVHMC[i]->SetMarkerColor(vDefaultColors[i]);
+    mVHMC[i]->SetFillColor(ROOT_PALATE[i]);
+    mVHMC[i]->SetLineColor(ROOT_PALATE[i]);
+    mVHMC[i]->SetMarkerColor(ROOT_PALATE[i]);
     if (mBothData) mVHMC[i]->SetMarkerStyle(20);
     mVHMC[i]->GetYaxis()->SetTitle(mYLabel);
     mVHMC[i]->GetYaxis()->SetTitleSize(mYLabelFontSize);
@@ -627,7 +629,11 @@ void Comparison::draw_main_histograms()
     // Sort MC histograms by area
     std::sort(hist_ordering.begin(), hist_ordering.end(), sortByValue);
     for (std::vector<std::pair<int, float> >::iterator it = hist_ordering.begin(); it != hist_ordering.end(); ++it)
+    {
+        mVHMC[it->first]->SetFillColor(ROOT_PALATE[(it->first)%ROOT_PALATE.size()]);
+      mVHMC[it->first]->SetFillStyle(1001);
       mStack->Add(mVHMC[it->first]);
+    }
     mScaled = true;
   }
 

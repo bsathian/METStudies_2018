@@ -1478,7 +1478,8 @@ int main(int argc, char* argv[])
 {
   // Style options
   gStyle->SetOptStat(0);
-  gStyle->SetPalette(kRainBow,0);
+
+//  gStyle->SetPalette(kRainBow,0);
   gStyle->SetPaintTextFormat(".2f");
   gStyle->SetTickLength(0.01);
   //gStyle->SetErrorX(0);
