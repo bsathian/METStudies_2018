@@ -83,9 +83,9 @@ void make_plot(TCanvas* c1, int histIdx, vector<TFile*> vFiles, string output_na
   //c->set_legend_labels({"2017 Data", "Drell-Yan", "DiBoson", "TriBoson", "Top"});
  
   if (name.Contains("v2") && !name.Contains("nominal"))
-    c->set_legend_labels({"2017 Data", "Drell-Yan (12Apr2018)", "DiBoson", "Top"});
+    c->set_legend_labels({"2018 Data", "Drell-Yan (12Apr2018)", "DiBoson", "Top"});
   else
-    c->set_legend_labels({"2017 Data", "Drell-Yan", "DiBoson", "Top"});
+    c->set_legend_labels({"2018 Data", "Drell-Yan", "DiBoson", "Top"});
   c->set_x_label(x_label);
   c->set_y_label("Events");
   c->set_data_drawOpt("E");
@@ -106,6 +106,10 @@ void make_plot(TCanvas* c1, int histIdx, vector<TFile*> vFiles, string output_na
   }
   for (int i = 0; i < vInfo.size(); i++)
     c->give_info(vInfo[i]);
+  if(hist_name.Contains("UPerp"))
+  {
+      c->give_info(TString("Data Stdev=")+TString(Form("%.3f",hData->GetStdDev()))+TString(" GeV"));
+  }
   c->plot(idx);
   delete hData;
   for (int i = 0; i < hMC.size(); i++)
@@ -274,7 +278,7 @@ void make_plot_rat_unc(TCanvas* c1, int histIdx, vector<TFile*> vFiles, string o
   c->set_filename(output_name);
   c->set_rat_label("Data/MC");
   //c->set_legend_labels({"2017 Data", "Drell-Yan", "DiBoson", "TriBoson", "Top"});
-  c->set_legend_labels({"2017 Data", "Drell-Yan", "DiBoson", "Top"});
+  c->set_legend_labels({"2018 Data", "Drell-Yan", "DiBoson", "Top"});
   c->set_x_label(x_label);
   c->set_y_label("Events");
   c->set_data_drawOpt("E");
@@ -1462,6 +1466,8 @@ void make_met_plots(TCanvas* c1, int histIdx, vector<TFile*> vFiles, string outp
     make_plot(c1, histIdx, vFiles, output_name, "hZpT" + name, "q_{T} [GeV]", lumi, scale, vInfo, 1);
     make_plot(c1, histIdx, vFiles, output_name, "hT1CMET_UPara" + name, "u_{#parallel} [GeV]", lumi, scale, vInfo, 1);
     make_plot(c1, histIdx, vFiles, output_name, "hT1CMET_UPerp" + name, "u_{#perp}  [GeV]", lumi, scale, vInfo, 1);
+    make_plot(c1, histIdx, vFiles, output_name, "hRaw_UPara","Raw u_{#parallel} [GeV]",lumi,scale,{"No JECs"},1);
+    make_plot(c1,histIdx,  vFiles,output_name,  "hRaw_UPerp","Raw u_{#perp}  [GeV]",lumi,scale,{"No JECs"},1);
 
     make_plot(c1, histIdx, vFiles, output_name, "hT1CMET_UPara_over_high_qT" + name, "u_{#parallel} [GeV]", lumi, scale, vInfo, 1);
     make_plot(c1, histIdx, vFiles, output_name, "hLeadJetPt" + name, "Lead Jet p_{T} [GeV]", lumi, scale, vInfo, 1);
@@ -1469,7 +1475,7 @@ void make_met_plots(TCanvas* c1, int histIdx, vector<TFile*> vFiles, string outp
 
     //make_2Dplot(c1, histIdx, vFiles, output_name, "hJetEtaPhi" + name, "Jet #eta", "Jet #phi", lumi, -1, {}, 1);
 
-    make_plot(c1, histIdx, vFiles, output_name, "hT1CMET_UParaPlusqT" + name, "u_{#parallel} + q_{T} [GeV]", lumi, scale, vInfo, 2);
+    make_plot(c1, histIdx, vFiles, output_name, "hT1CMET_UParaPlusqT" + name, "u_{#parallel} + q_{T} [GeV]", lumi, scale, vInfo, 1);
   }
 } 
 
@@ -1525,8 +1531,8 @@ int main(int argc, char* argv[])
   fDY = new TFile("../histograms/Zll_histograms_Drell-Yan.root");
   TFile* fDiBoson = new TFile("../histograms/Zll_histograms_DiBoson.root");
 //  TFile* fTriBoson = new TFile("../histograms/Zll_histograms_TriBoson.root");
-//  TFile* fTop = new TFile("../histograms/Zll_histograms_Top.root");
-  vector<TFile*> vFiles = {fData, fDY, fDiBoson}; //fTop};
+  TFile* fTop = new TFile("../histograms/Zll_histograms_top.root");
+  vector<TFile*> vFiles = {fData, fDY, fDiBoson,fTop};
 
   TCanvas* c1 = new TCanvas("c1", "histos", 600, 800);
 
@@ -1547,7 +1553,13 @@ int main(int argc, char* argv[])
   }
 
   else {
+    double scaleMC = get_scaleMC(vFiles, "hDilepMass", histIdx, lumi);
+
     make_met_plots(c1, histIdx, vFiles, output_name, "V8", lumi, scaleMC, {eras == "F" ? "09May2018 V8 JECs" : "V8 JECs"}, 0);
+    make_plot(c1,histIdx,vFiles,output_name,"hRawMET","Raw MET",lumi,scaleMC,{"No JECs"},2,true);
+
+ //   make_plot(c1,histIdx,vFiles,output_name,"hRaw_ResponseMM","Raw MET",lumi,1,{"Raw MEt in Z #rightarrow #mu#mu"},2);
+
 //    make_plot(c1, histIdx, vFiles, output_name, "hJetEta_100GeVV8", "Jet |#eta|", lumi, 1, {"V8 JECs", "Jet p_{T} #geq 100 GeV"}, 2);
     //make_plot(c1, histIdx, vFiles, output_name, "hCCeta", "|#eta|", lumi, -1, {"Charged Candidates"}, 2);
     //make_met_plots(c1, histIdx, vFiles, output_name, "V32_v2C_50GeV", lumi, scaleMC, {eras == "F" ? "09May2018 V2 JECs" : "V32 JECs", "Modified v2 Type-1 MET", "50 GeV Jet Threshold"}, 1);
