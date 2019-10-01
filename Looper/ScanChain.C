@@ -115,7 +115,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
   vector<TH1D*> hVertexZ = create_histogram_vector("hVertexZ", 100, -10, 10, nHists);
   vector<TH1D*> hVertexZ_forwardPhoton = create_histogram_vector("hVertexZ_forwardPhoton", 100, -10, 10, nHists);
   
-  MetHelper* mV8 = new MetHelper("V8", nHists, "V8", "V8", 0);
+  MetHelper* mV8 = new MetHelper("V19", nHists, "V19", "V19", 0);
   mV8->create_raw_met_histograms();
 
   double vtxBins[] = {0,10,15,20,25,30,35,40,45,50,60,75,100};
