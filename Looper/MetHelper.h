@@ -12,7 +12,9 @@ class MetHelper
     void create_histograms();
     void create_raw_met_histograms();
     //void fill_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, vector<double> weights);
-    void fill_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, vector<double> weights, vector<double> vId, vector<double> weights_up, vector<double> weights_down);
+    void fill_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, int nvtx,vector<double> weights, vector<double> vId, vector<double> weights_up, vector<double> weights_down);
+    void fill_puppi_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, int nvtx,vector<double> weights, vector<double> vId, vector<double> weights_up, vector<double> weights_down);
+ 
     void fill_raw_met_histograms(bool isElEvt, int id1, int id2, int nJets, vector<double> weights);
 
     double get_t1met() { return t1met; }
@@ -54,6 +56,58 @@ class MetHelper
     vector<TH1D*> hT1CMET_1pJets_up;
     vector<TH1D*> hT1CMET_1pJets_down;
 
+    vector<TH1D*> hT1CMET_Puppi;
+    vector<TH1D*> hT1CMET_up_Puppi;
+    vector<TH1D*> hT1CMET_down_Puppi;
+    vector<TH1D*> hT1CMET_pu_up_Puppi;
+    vector<TH1D*> hT1CMET_pu_down_Puppi;
+
+    vector<TH1D*> hT1CMET_EE_Puppi;
+    vector<TH1D*> hT1CMET_EE_up_Puppi;
+    vector<TH1D*> hT1CMET_EE_down_Puppi;
+
+    vector<TH1D*> hT1CMET_MM_Puppi;
+    vector<TH1D*> hT1CMET_MM_up_Puppi;
+    vector<TH1D*> hT1CMET_MM_down_Puppi;
+
+
+    vector<TH1D*> hXYCMET;
+    vector<TH1D*> hXYCMET_up;
+    vector<TH1D*> hXYCMET_down;
+    vector<TH1D*> hXYCMET_pu_up;
+    vector<TH1D*> hXYCMET_pu_down;
+
+    vector<TH1D*> hXYCMET_EE;
+    vector<TH1D*> hXYCMET_EE_up;
+    vector<TH1D*> hXYCMET_EE_down;
+
+    vector<TH1D*> hXYCMET_MM;
+    vector<TH1D*> hXYCMET_MM_up;
+    vector<TH1D*> hXYCMET_MM_down;
+
+    vector<TH1D*> hXYCMET_Puppi;
+    vector<TH1D*> hXYCMET_up_Puppi;
+    vector<TH1D*> hXYCMET_down_Puppi;
+    vector<TH1D*> hXYCMET_pu_up_Puppi;
+    vector<TH1D*> hXYCMET_pu_down_Puppi;
+
+    vector<TH1D*> hXYCMET_EE_Puppi;
+    vector<TH1D*> hXYCMET_EE_up_Puppi;
+    vector<TH1D*> hXYCMET_EE_down_Puppi;
+
+    vector<TH1D*> hXYCMET_MM_Puppi;
+    vector<TH1D*> hXYCMET_MM_up_Puppi;
+    vector<TH1D*> hXYCMET_MM_down_Puppi;
+
+
+    vector<TH1D*> hXYCMET_0Jets;
+    vector<TH1D*> hXYCMET_0Jets_up;
+    vector<TH1D*> hXYCMET_0Jets_down;
+
+    vector<TH1D*> hXYCMET_1pJets;
+    vector<TH1D*> hXYCMET_1pJets_up;
+    vector<TH1D*> hXYCMET_1pJets_down;
+
     vector<TH1D*> hLeadJetPt;
     vector<TH1D*> hJetPt; 
     vector<TH1D*> hJetPt_Barrel;
@@ -71,6 +125,22 @@ class MetHelper
     vector<TH1D*> hT1CMET_UPerp;
     vector<TH1D*> hT1CMET_UParaPlusqT;
     vector<TH1D*> hT1CMET_UPara_over_high_qT;
+
+    vector<TH1D*> hT1CMET_UPara_Puppi;
+    vector<TH1D*> hT1CMET_UPerp_Puppi;
+    vector<TH1D*> hT1CMET_UParaPlusqT_Puppi;
+
+
+    vector<TH1D*> hXYCMET_UPara;
+    vector<TH1D*> hXYCMET_UPerp;
+    vector<TH1D*> hXYCMET_UParaPlusqT;
+    vector<TH1D*> hXYCMET_UPara_over_high_qT;
+
+    vector<TH1D*> hXYCMET_UPara_Puppi;
+    vector<TH1D*> hXYCMET_UPerp_Puppi;
+    vector<TH1D*> hXYCMET_UParaPlusqT_Puppi;
+
+
 
     vector<vector<TH1D*>> hResPara;
     vector<vector<TH1D*>> hResPerp;
@@ -157,12 +227,21 @@ MetHelper::MetHelper(TString name_, int nHists_, string jec_version_data_, strin
 
 inline
 void MetHelper::create_histograms() {
+
   hT1CMET = create_histogram_vector("hT1CMET" + name, nBins, x_low, x_high, nHists);
   hT1CMET_up = create_histogram_vector("hT1CMET_up" + name, nBins, x_low, x_high, nHists);
   hT1CMET_down = create_histogram_vector("hT1CMET_down" + name, nBins, x_low, x_high, nHists);
 
   hT1CMET_pu_up = create_histogram_vector("hT1CMET_pu_up" + name, nBins, x_low, x_high, nHists);
   hT1CMET_pu_down = create_histogram_vector("hT1CMET_pu_down" + name, nBins, x_low, x_high, nHists);
+
+  hT1CMET_Puppi = create_histogram_vector("hT1CMET_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_up_Puppi = create_histogram_vector("hT1CMET_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_down_Puppi = create_histogram_vector("hT1CMET_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+  hT1CMET_pu_up_Puppi = create_histogram_vector("hT1CMET_pu_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_pu_down_Puppi = create_histogram_vector("hT1CMET_pu_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
 
   hT1CMET_0Jets = create_histogram_vector("hT1CMET_0Jets" + name, nBins, x_low, x_high, nHists);
   hT1CMET_0Jets_up = create_histogram_vector("hT1CMET_0Jets_up" + name, nBins, x_low, x_high, nHists);
@@ -180,6 +259,16 @@ void MetHelper::create_histograms() {
   hT1CMET_MM_up = create_histogram_vector("hT1CMET_MM_up" + name, nBins, x_low, x_high, nHists);
   hT1CMET_MM_down = create_histogram_vector("hT1CMET_MM_down" + name, nBins, x_low, x_high, nHists);
 
+  hT1CMET_EE_Puppi = create_histogram_vector("hT1CMET_EE_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_EE_up_Puppi = create_histogram_vector("hT1CMET_EE_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_EE_down_Puppi = create_histogram_vector("hT1CMET_EE_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+  
+  hT1CMET_MM_Puppi = create_histogram_vector("hT1CMET_MM_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_MM_up_Puppi = create_histogram_vector("hT1CMET_MM_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hT1CMET_MM_down_Puppi = create_histogram_vector("hT1CMET_MM_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+ 
   hLeadJetPt = create_histogram_vector("hLeadJetPt" + name, nBins, x_low, x_high, nHists);
   hJetPt = create_histogram_vector("hJetPt" + name, nBins, x_low, x_high, nHists);
   hJetPt_Barrel = create_histogram_vector("hJetPt_Barrel" + name, nBins, x_low, x_high, nHists);
@@ -196,6 +285,11 @@ void MetHelper::create_histograms() {
   hT1CMET_UPerp = create_histogram_vector("hT1CMET_UPerp" + name, 100, -200, 200, nHists);
   hT1CMET_UParaPlusqT = create_histogram_vector("hT1CMET_UParaPlusqT" + name, 100, -200, 200, nHists);
   hT1CMET_UPara_over_high_qT = create_histogram_vector("hT1CMET_UPara_over_high_qT" + name, 100, -10, 10, nHists);
+
+  hT1CMET_UPara_Puppi = create_histogram_vector("hT1CMET_UPara_Puppi" + name, 200, -400, 400, nHists);
+  hT1CMET_UPerp_Puppi = create_histogram_vector("hT1CMET_UPerp_Puppi" + name, 100, -200, 200, nHists);
+  hT1CMET_UParaPlusqT_Puppi = create_histogram_vector("hT1CMET_UParaPlusqT_Puppi" + name, 100, -200, 200, nHists);
+
 
   for (int i = 0; i < resolution_bins.size(); i++) {
     hResponse.push_back(create_histogram_vector("hT1CMET_Response" + name + to_string(i), 100, -10, 10, nHists));
@@ -244,7 +338,57 @@ void MetHelper::create_histograms() {
     hResDownPara.push_back(create_histogram_vector("hT1CMET_ResDownPara" + name + to_string(i), 200, -400, 400, nHists));
     hResDownPerp.push_back(create_histogram_vector("hT1CMET_ResDownPerp" + name + to_string(i), 100, -200, 200, nHists));
   
-  }   
+  }
+
+  //XYCorrected MET
+  hXYCMET = create_histogram_vector("hXYCMET" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_up = create_histogram_vector("hXYCMET_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_down = create_histogram_vector("hXYCMET_down" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_pu_up = create_histogram_vector("hXYCMET_pu_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_pu_down = create_histogram_vector("hXYCMET_pu_down" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_Puppi = create_histogram_vector("hXYCMET_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_up_Puppi = create_histogram_vector("hXYCMET_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_down_Puppi = create_histogram_vector("hXYCMET_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_pu_up_Puppi = create_histogram_vector("hXYCMET_pu_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_pu_down_Puppi = create_histogram_vector("hXYCMET_pu_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+
+  hXYCMET_0Jets = create_histogram_vector("hXYCMET_0Jets" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_0Jets_up = create_histogram_vector("hXYCMET_0Jets_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_0Jets_down = create_histogram_vector("hXYCMET_0Jets_down" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_1pJets = create_histogram_vector("hXYCMET_1pJets" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_1pJets_up = create_histogram_vector("hXYCMET_1pJets_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_1pJets_down = create_histogram_vector("hXYCMET_1pJets_down" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_EE = create_histogram_vector("hXYCMET_EE" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_EE_up = create_histogram_vector("hXYCMET_EE_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_EE_down = create_histogram_vector("hXYCMET_EE_down" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_MM = create_histogram_vector("hXYCMET_MM" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_MM_up = create_histogram_vector("hXYCMET_MM_up" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_MM_down = create_histogram_vector("hXYCMET_MM_down" + name, nBins, x_low, x_high, nHists);
+
+    hXYCMET_UPara = create_histogram_vector("hXYCMET_UPara" + name, 200, -400, 400, nHists);
+  hXYCMET_UPerp = create_histogram_vector("hXYCMET_UPerp" + name, 100, -200, 200, nHists);
+  hXYCMET_UParaPlusqT = create_histogram_vector("hXYCMET_UParaPlusqT" + name, 100, -200, 200, nHists);
+  hXYCMET_UPara_over_high_qT = create_histogram_vector("hXYCMET_UPara_over_high_qT" + name, 100, -10, 10, nHists);
+
+  hXYCMET_EE_Puppi = create_histogram_vector("hXYCMET_EE_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_EE_up_Puppi = create_histogram_vector("hXYCMET_EE_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_EE_down_Puppi = create_histogram_vector("hXYCMET_EE_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+  hXYCMET_MM_Puppi = create_histogram_vector("hXYCMET_MM_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_MM_up_Puppi = create_histogram_vector("hXYCMET_MM_up_Puppi" + name, nBins, x_low, x_high, nHists);
+  hXYCMET_MM_down_Puppi = create_histogram_vector("hXYCMET_MM_down_Puppi" + name, nBins, x_low, x_high, nHists);
+
+    hXYCMET_UPara_Puppi = create_histogram_vector("hXYCMET_UPara_Puppi" + name, 200, -400, 400, nHists);
+  hXYCMET_UPerp_Puppi = create_histogram_vector("hXYCMET_UPerp_Puppi" + name, 100, -200, 200, nHists);
+  hXYCMET_UParaPlusqT_Puppi = create_histogram_vector("hXYCMET_UParaPlusqT_Puppi" + name, 100, -200, 200, nHists);
+
 }
 
 inline
@@ -303,9 +447,10 @@ void MetHelper::fill_raw_met_histograms(bool isElEvt, int id1, int id2, int nJet
 }
 
 inline
-void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, vector<double> weights, vector<double> vId, vector<double> weights_up = {}, vector<double> weights_down = {}) {
+void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, int nvtx,vector<double> weights, vector<double> vId, vector<double> weights_up = {}, vector<double> weights_down = {}) {
   ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fT1CMET, fT1CMET_up, fT1CMET_down;
 
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fXYCMET,fXYCMET_up,fXYCMET_down;
 
   vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> vCorrectedJets = correctedJets(currentFileName, jec_version_data, jec_version_mc); 
   fill_histograms(hLeadJetPt, vCorrectedJets.size() > 0 ? vCorrectedJets[0].pt() : -999, weights); 
@@ -347,11 +492,12 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
   fT1CMET_up = t1CMET(currentFileName, false, jec_version_data, jec_version_mc, 1); 
   fT1CMET_down = t1CMET(currentFileName, false, jec_version_data, jec_version_mc, 2);
 
-  //fT1CMET = t1CMET_configurable(currentFileName, jec_version_data, jec_version_mc, pt_jec_thresh, eta_exclusion_range, exclude_jets, exclude_jets, pt_thresh, 0, mCorr);
-  //fT1CMET_up = t1CMET_configurable(currentFileName, jec_version_data, jec_version_mc, pt_jec_thresh, eta_exclusion_range, exclude_jets, exclude_jets, pt_thresh, 1, mCorr);
-  //fT1CMET_down = t1CMET_configurable(currentFileName, jec_version_data, jec_version_mc, pt_jec_thresh, eta_exclusion_range, exclude_jets, exclude_jets, pt_thresh, 2, mCorr);
   
 
+  fXYCMET = METXYCorr(currentFileName,fT1CMET.pt(),fT1CMET.phi(),nvtx); 
+  fXYCMET_up = METXYCorr(currentFileName,fT1CMET_up.pt(),fT1CMET_up.phi(),nvtx);
+  fXYCMET_down = METXYCorr(currentFileName,fT1CMET_down.pt(),fT1CMET_down.phi(),nvtx);
+  
   t1met = fT1CMET.pt();
  
   double t1met_up = fT1CMET_up.pt();
@@ -413,9 +559,74 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
   }
 
 
+
+  double xymet = fXYCMET.pt();
+ 
+  double xymet_up = fXYCMET_up.pt();
+  double xymet_down = fXYCMET_down.pt();
+
+  vector<double> vXYMET = {xymet, xymet_up, xymet_down};
+
+  xymet_up = *max_element(vXYMET.begin(), vXYMET.end());
+  xymet_down = *min_element(vXYMET.begin(), vXYMET.end());
+
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fXYCMET_temp, fXYCMET_up_temp, fXYCMET_down_temp;
+  fXYCMET_temp = fXYCMET;
+  fXYCMET_up_temp = fXYCMET_up;
+  fXYCMET_down_temp = fXYCMET_down;
+
+
+  if (fXYCMET_up_temp.pt() >= fXYCMET_temp.pt() && fXYCMET_up_temp.pt() >= fXYCMET_down_temp.pt()) 
+    fXYCMET_up = fXYCMET_up_temp;
+  else if (fXYCMET_temp.pt() >= fXYCMET_up_temp.pt() && fXYCMET_temp.pt() >= fXYCMET_down_temp.pt()) 
+    fXYCMET_up = fXYCMET_temp;
+  else if (fXYCMET_down_temp.pt() >= fXYCMET_temp.pt() && fXYCMET_down_temp.pt() >= fXYCMET_up_temp.pt()) 
+    fXYCMET_up = fXYCMET_down_temp;
+
+  if (fXYCMET_up_temp.pt() <= fXYCMET_temp.pt() && fXYCMET_up_temp.pt() <= fXYCMET_down_temp.pt()) 
+    fXYCMET_down = fXYCMET_up_temp;
+  else if (fXYCMET_temp.pt() <= fXYCMET_up_temp.pt() && fXYCMET_temp.pt() <= fXYCMET_down_temp.pt())
+    fXYCMET_down = fXYCMET_temp;
+  else if (fXYCMET_down_temp.pt() <= fXYCMET_temp.pt() && fXYCMET_down_temp.pt() <= fXYCMET_up_temp.pt())
+    fXYCMET_down = fXYCMET_down_temp;
+
+  fill_histograms(hXYCMET, fXYCMET.pt(), weights);
+  fill_histograms(hXYCMET_up, xymet_up, weights);
+  fill_histograms(hXYCMET_down, xymet_down, weights);
+
+  if (weights_up.size() > 0) {
+    fill_histograms(hXYCMET_pu_up, xymet, weights_up);
+    fill_histograms(hXYCMET_pu_down, xymet, weights_down);
+  }
+
+  if (isElEvt) {
+    fill_histograms(hXYCMET_EE, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_EE_up, xymet_up, weights);
+    fill_histograms(hXYCMET_EE_down, xymet_down, weights);
+  }
+  else {
+    fill_histograms(hXYCMET_MM, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_MM_up, xymet_up, weights);
+    fill_histograms(hXYCMET_MM_down, xymet_down, weights);
+  }
+
+  if (nJets == 0) {
+    fill_histograms(hXYCMET_0Jets, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_0Jets_up, xymet_up, weights);
+    fill_histograms(hXYCMET_0Jets_down, xymet_down, weights);
+  }
+  else {
+    fill_histograms(hXYCMET_1pJets, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_1pJets_up, xymet_up, weights);
+    fill_histograms(hXYCMET_1pJets_down, xymet_down, weights);
+  }
+
+
+
   // Response & Resolution
-  double boson_pt, u_para, u_perp, u_para_plus_qt;
+  double boson_pt, u_para, u_perp, u_para_plus_qt,xy_u_para,xy_u_perp,xy_u_para_plus_qt;
   boson_pt = boson_pT(isElEvt, id1, id2, fT1CMET, u_para, u_perp, u_para_plus_qt);
+  double boson_pt_xy = boson_pT(isElEvt,id1,id2,fXYCMET,xy_u_para,xy_u_perp,xy_u_para_plus_qt);
 
 
   if (boson_pt >= 200) {
@@ -442,6 +653,12 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
   fill_histograms(hT1CMET_UPara, u_para, weights);
   fill_histograms(hT1CMET_UPerp, u_perp, weights);
   fill_histograms(hT1CMET_UParaPlusqT, u_para_plus_qt, weights);
+
+
+  fill_histograms(hXYCMET_UPara,xy_u_para,weights);
+  fill_histograms(hXYCMET_UPerp,xy_u_perp,weights);
+  fill_histograms(hXYCMET_UParaPlusqT,u_para_plus_qt,weights);
+
   if (boson_pt > 300)
     fill_histograms(hT1CMET_UPara_over_high_qT, -u_para/boson_pt, weights);
 
@@ -512,5 +729,175 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
   fill_histograms(hResDownPerp[resolution_idx_down], u_perp_down, weights);
 
 }
+
+
+inline
+void MetHelper::fill_puppi_met_histograms(TString currentFileName, bool isElEvt, int id1, int id2, int nJets, int nvtx,vector<double> weights, vector<double> vId, vector<double> weights_up = {}, vector<double> weights_down = {}) {
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fT1CMET, fT1CMET_up, fT1CMET_down;
+
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fXYCMET,fXYCMET_up,fXYCMET_down;
+
+  vector<ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>>> vCorrectedJets = correctedJets(currentFileName, jec_version_data, jec_version_mc,true); 
+  fill_histograms(hLeadJetPt, vCorrectedJets.size() > 0 ? vCorrectedJets[0].pt() : -999, weights); 
+  int n_jets = 0;
+  int n_high_pt_jets = 0;
+
+  LorentzVector pl1, pl2;
+  if (isElEvt) {
+    pl1 = els_p4().at(id1);
+    pl2 = els_p4().at(id2);
+  }
+  else {
+    pl1 = mus_p4().at(id1);
+    pl2 = mus_p4().at(id2);
+  }
+
+  for (unsigned int i = 0; i < vCorrectedJets.size(); i++) {
+    if (DeltaR(pfjets_p4().at(i),pl1) < 0.4)            { continue; }
+    if (DeltaR(pfjets_p4().at(i),pl2) < 0.4)            { continue; }    
+    fill_histograms(hJetPt, vCorrectedJets[i].pt(), weights);
+    if (abs(vCorrectedJets[i].eta()) < 1.6)
+      fill_histograms(hJetPt_Barrel, vCorrectedJets[i].pt(), weights);
+    else if (abs(vCorrectedJets[i].eta()) < 3.0)
+      fill_histograms(hJetPt_EC, vCorrectedJets[i].pt(), weights);
+    else 
+      fill_histograms(hJetPt_Forward, vCorrectedJets[i].pt(), weights);
+
+    if (vCorrectedJets[i].pt() > 30) {
+      fill_histograms2D(hJetEtaPhi, vCorrectedJets[i].eta(), vCorrectedJets[i].phi(), weights);
+      n_jets++;
+    }
+    if (vCorrectedJets[i].pt() > 100) {
+      n_high_pt_jets++;
+    }
+  }
+  fill_histograms(hJetMultiplicity, n_jets, weights);
+  
+  fT1CMET = t1CPuppiMET(currentFileName, false, jec_version_data, jec_version_mc, 0);
+  fT1CMET_up = t1CPuppiMET(currentFileName, false, jec_version_data, jec_version_mc, 1); 
+  fT1CMET_down = t1CPuppiMET(currentFileName, false, jec_version_data, jec_version_mc, 2);
+
+  
+
+  fXYCMET = METXYCorr(currentFileName,fT1CMET.pt(),fT1CMET.phi(),nvtx); 
+  fXYCMET_up = METXYCorr(currentFileName,fT1CMET_up.pt(),fT1CMET_up.phi(),nvtx);
+  fXYCMET_down = METXYCorr(currentFileName,fT1CMET_down.pt(),fT1CMET_down.phi(),nvtx);
+  
+  t1met = fT1CMET.pt();
+ 
+  double t1met_up = fT1CMET_up.pt();
+  double t1met_down = fT1CMET_down.pt();
+
+  vector<double> vMET = {t1met, t1met_up, t1met_down};
+
+  t1met_up = *max_element(vMET.begin(), vMET.end());
+  t1met_down = *min_element(vMET.begin(), vMET.end());
+
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fT1CMET_temp, fT1CMET_up_temp, fT1CMET_down_temp;
+  fT1CMET_temp = fT1CMET;
+  fT1CMET_up_temp = fT1CMET_up;
+  fT1CMET_down_temp = fT1CMET_down;
+
+  if (fT1CMET_up_temp.pt() >= fT1CMET_temp.pt() && fT1CMET_up_temp.pt() >= fT1CMET_down_temp.pt()) 
+    fT1CMET_up = fT1CMET_up_temp;
+  else if (fT1CMET_temp.pt() >= fT1CMET_up_temp.pt() && fT1CMET_temp.pt() >= fT1CMET_down_temp.pt()) 
+    fT1CMET_up = fT1CMET_temp;
+  else if (fT1CMET_down_temp.pt() >= fT1CMET_temp.pt() && fT1CMET_down_temp.pt() >= fT1CMET_up_temp.pt()) 
+    fT1CMET_up = fT1CMET_down_temp;
+
+  if (fT1CMET_up_temp.pt() <= fT1CMET_temp.pt() && fT1CMET_up_temp.pt() <= fT1CMET_down_temp.pt()) 
+    fT1CMET_down = fT1CMET_up_temp;
+  else if (fT1CMET_temp.pt() <= fT1CMET_up_temp.pt() && fT1CMET_temp.pt() <= fT1CMET_down_temp.pt())
+    fT1CMET_down = fT1CMET_temp;
+  else if (fT1CMET_down_temp.pt() <= fT1CMET_temp.pt() && fT1CMET_down_temp.pt() <= fT1CMET_up_temp.pt())
+    fT1CMET_down = fT1CMET_down_temp;
+
+  fill_histograms(hT1CMET_Puppi, fT1CMET.pt(), weights);
+  fill_histograms(hT1CMET_up_Puppi, t1met_up, weights);
+  fill_histograms(hT1CMET_down_Puppi, t1met_down, weights);
+
+  if (weights_up.size() > 0) {
+    fill_histograms(hT1CMET_pu_up_Puppi, t1met, weights_up);
+    fill_histograms(hT1CMET_pu_down_Puppi, t1met, weights_down);
+  }
+
+  if (isElEvt) {
+    fill_histograms(hT1CMET_EE_Puppi, fT1CMET.pt(), weights);
+    fill_histograms(hT1CMET_EE_up_Puppi, t1met_up, weights);
+    fill_histograms(hT1CMET_EE_down_Puppi, t1met_down, weights);
+  }
+  else {
+    fill_histograms(hT1CMET_MM_Puppi, fT1CMET.pt(), weights);
+    fill_histograms(hT1CMET_MM_up_Puppi, t1met_up, weights);
+    fill_histograms(hT1CMET_MM_down_Puppi, t1met_down, weights);
+  }
+
+
+  double xymet = fXYCMET.pt();
+ 
+  double xymet_up = fXYCMET_up.pt();
+  double xymet_down = fXYCMET_down.pt();
+
+  vector<double> vXYMET = {xymet, xymet_up, xymet_down};
+
+  xymet_up = *max_element(vXYMET.begin(), vXYMET.end());
+  xymet_down = *min_element(vXYMET.begin(), vXYMET.end());
+
+  ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fXYCMET_temp, fXYCMET_up_temp, fXYCMET_down_temp;
+  fXYCMET_temp = fXYCMET;
+  fXYCMET_up_temp = fXYCMET_up;
+  fXYCMET_down_temp = fXYCMET_down;
+
+
+  if (fXYCMET_up_temp.pt() >= fXYCMET_temp.pt() && fXYCMET_up_temp.pt() >= fXYCMET_down_temp.pt()) 
+    fXYCMET_up = fXYCMET_up_temp;
+  else if (fXYCMET_temp.pt() >= fXYCMET_up_temp.pt() && fXYCMET_temp.pt() >= fXYCMET_down_temp.pt()) 
+    fXYCMET_up = fXYCMET_temp;
+  else if (fXYCMET_down_temp.pt() >= fXYCMET_temp.pt() && fXYCMET_down_temp.pt() >= fXYCMET_up_temp.pt()) 
+    fXYCMET_up = fXYCMET_down_temp;
+
+  if (fXYCMET_up_temp.pt() <= fXYCMET_temp.pt() && fXYCMET_up_temp.pt() <= fXYCMET_down_temp.pt()) 
+    fXYCMET_down = fXYCMET_up_temp;
+  else if (fXYCMET_temp.pt() <= fXYCMET_up_temp.pt() && fXYCMET_temp.pt() <= fXYCMET_down_temp.pt())
+    fXYCMET_down = fXYCMET_temp;
+  else if (fXYCMET_down_temp.pt() <= fXYCMET_temp.pt() && fXYCMET_down_temp.pt() <= fXYCMET_up_temp.pt())
+    fXYCMET_down = fXYCMET_down_temp;
+
+  fill_histograms(hXYCMET_Puppi, fXYCMET.pt(), weights);
+  fill_histograms(hXYCMET_up_Puppi, xymet_up, weights);
+  fill_histograms(hXYCMET_down_Puppi, xymet_down, weights);
+
+  if (weights_up.size() > 0) {
+    fill_histograms(hXYCMET_pu_up_Puppi, xymet, weights_up);
+    fill_histograms(hXYCMET_pu_down_Puppi, xymet, weights_down);
+  }
+
+  if (isElEvt) {
+    fill_histograms(hXYCMET_EE_Puppi, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_EE_up_Puppi, xymet_up, weights);
+    fill_histograms(hXYCMET_EE_down_Puppi, xymet_down, weights);
+  }
+  else {
+    fill_histograms(hXYCMET_MM_Puppi, fXYCMET.pt(), weights);
+    fill_histograms(hXYCMET_MM_up_Puppi, xymet_up, weights);
+    fill_histograms(hXYCMET_MM_down_Puppi, xymet_down, weights);
+  }
+
+  // Response & Resolution
+  double boson_pt, u_para, u_perp, u_para_plus_qt,xy_u_para,xy_u_perp,xy_u_para_plus_qt;
+  boson_pt = boson_pT(isElEvt, id1, id2, fT1CMET, u_para, u_perp, u_para_plus_qt);
+  double boson_pt_xy = boson_pT(isElEvt,id1,id2,fXYCMET,xy_u_para,xy_u_perp,xy_u_para_plus_qt);
+
+  fill_histograms(hT1CMET_UPara_Puppi, u_para, weights);
+  fill_histograms(hT1CMET_UPerp_Puppi, u_perp, weights);
+  fill_histograms(hT1CMET_UParaPlusqT_Puppi, u_para_plus_qt, weights);
+
+
+  fill_histograms(hXYCMET_UPara_Puppi,xy_u_para,weights);
+  fill_histograms(hXYCMET_UPerp_Puppi,xy_u_perp,weights);
+  fill_histograms(hXYCMET_UParaPlusqT_Puppi,u_para_plus_qt,weights);
+  
+}
+
 
 #endif // _METHELPER_H_

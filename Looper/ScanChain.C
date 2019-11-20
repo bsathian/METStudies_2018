@@ -277,7 +277,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
       vector<double> vId = {pu, lead_jet_eta};      
 
-      mV8->fill_met_histograms(currentFileName, isElEvt, id1, id2, nJet, weight, vId); 
+      mV8->fill_met_histograms(currentFileName, isElEvt, id1, id2, nJet, pu, weight, vId); 
       mV8->fill_raw_met_histograms(isElEvt, id1, id2, nJet, weight);
       //ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> fMET = t1CMET(currentFileName, 0, "V6", "V6", 0);
       //fill_histograms(hT1CMET, fMET.pt(), weight);
