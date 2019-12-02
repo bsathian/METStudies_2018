@@ -578,7 +578,7 @@ ROOT::Math::LorentzVector<ROOT::Math::PxPyPzE4D<float>> t1CPuppiMET(TString curr
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_" + JEC_version_mc + "_MC_L1FastJet_AK4PFPuppi.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_" + JEC_version_mc + "_MC_L2Relative_AK4PFPuppi.txt");
       jetcorr_filenames_pfL1FastJetL2L3.push_back  ("jetCorrections/Autumn18_" + JEC_version_mc + "_MC_L3Absolute_AK4PFPuppi.txt");
-      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_" + JEC_version_mc + "_MC_Uncertainty_AK4PFchs.txt";
+      jetcorr_uncertainty_filename = "jetCorrections/Autumn18_" + JEC_version_mc + "_MC_Uncertainty_AK4PFPuppi.txt";
  
   }
   else if(currentFileName.Contains("2018A"))
@@ -648,6 +648,24 @@ vector<TH1D*> create_histogram_vector(TString name, int nBins, double x_low, dou
   return vHists;
 }
 
+TProfile* create_profile_histogram(TString name, int nBins, double x_low, double x_high)
+{
+    TProfile *h = new TProfile(name, "", nBins, x_low, x_high);
+    h->Sumw2();
+    return h;
+}
+
+vector<TProfile*> create_profile_histogram_vector(TString name, int nBins, double x_los, double x_high, int nHists)
+{
+    vector<TProfile*> vHists;
+    for(int i=0;i<nHists;i++)
+    {
+        vHists.push_back(create_profile_histogram(name_to_string(i),nBins,x_low,x_high));
+    }
+    return vHists;
+}
+
+
 vector<TH2D*> create_2Dhistogram_vector(TString name, int nBinsX, double x_low, double x_high, int nBinsY, double y_low, double y_high, int nHists) {
   vector<TH2D*> vHists;
   for (int i = 0; i < nHists; i++) {
@@ -667,6 +685,15 @@ void fill_histograms2D(vector<TH2D*> vHists, double x_value, double y_value, vec
   for (int i = 0; i < vHists.size(); i++) {
     vHists[i]->Fill(x_value, y_value, vWeights[i]);
   }
+}
+
+
+void fill_profile_histograms(vector<TProfile*> vHists,double x_value,double y_value, vector<double> vWeights)
+{
+    for(int i=0;i<vHists.size();i++)
+    {
+        vHists[i]->Fill(x_value,y_value,vWeights[i]);
+    }
 }
 
 vector<vector<vector<TH1D*>>> create_met_histograms(int nEtaRegions, int nCandCats) {

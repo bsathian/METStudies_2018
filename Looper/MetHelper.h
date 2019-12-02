@@ -140,7 +140,9 @@ class MetHelper
     vector<TH1D*> hXYCMET_UPerp_Puppi;
     vector<TH1D*> hXYCMET_UParaPlusqT_Puppi;
 
-
+    vector<TProfile*> hScale_T1CMET_Puppi;
+    vector<TProfile*> hScale_T1CMET_EE_Puppi;
+    vector<TProfile*> hScale_T1CMET_MM_Puppi;
 
     vector<vector<TH1D*>> hResPara;
     vector<vector<TH1D*>> hResPerp;
@@ -388,6 +390,12 @@ void MetHelper::create_histograms() {
     hXYCMET_UPara_Puppi = create_histogram_vector("hXYCMET_UPara_Puppi" + name, 200, -400, 400, nHists);
   hXYCMET_UPerp_Puppi = create_histogram_vector("hXYCMET_UPerp_Puppi" + name, 100, -200, 200, nHists);
   hXYCMET_UParaPlusqT_Puppi = create_histogram_vector("hXYCMET_UParaPlusqT_Puppi" + name, 100, -200, 200, nHists);
+
+
+  //Profile histograms for PUPPI MET
+  hScale_T1CMET_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
+  hScale_T1CMET_EE_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_ee_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
+  hScale_T1CMET_MM_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_MM_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
 
 }
 
@@ -867,6 +875,7 @@ void MetHelper::fill_puppi_met_histograms(TString currentFileName, bool isElEvt,
   fill_histograms(hXYCMET_up_Puppi, xymet_up, weights);
   fill_histograms(hXYCMET_down_Puppi, xymet_down, weights);
 
+
   if (weights_up.size() > 0) {
     fill_histograms(hXYCMET_pu_up_Puppi, xymet, weights_up);
     fill_histograms(hXYCMET_pu_down_Puppi, xymet, weights_down);
@@ -896,6 +905,18 @@ void MetHelper::fill_puppi_met_histograms(TString currentFileName, bool isElEvt,
   fill_histograms(hXYCMET_UPara_Puppi,xy_u_para,weights);
   fill_histograms(hXYCMET_UPerp_Puppi,xy_u_perp,weights);
   fill_histograms(hXYCMET_UParaPlusqT_Puppi,u_para_plus_qt,weights);
+
+  fill_profile_histograms(hScale_T1CMET_Puppi,boson_pt,-u_para/boson_pt,weights);
+
+  if(isElEvt)
+  {
+      fill_profile_histograms(hScale_T1CMET_EE_Puppi,boson_pt,-u_para/boson_pt,weights);
+  }
+  else
+  {
+      fill_profile_histograms(hScale_T1CMET_MM_Puppi,boson_pt,-u_para/boson_pt,weights);
+  }
+
   
 }
 
