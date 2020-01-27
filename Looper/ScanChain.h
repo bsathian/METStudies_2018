@@ -648,19 +648,19 @@ vector<TH1D*> create_histogram_vector(TString name, int nBins, double x_low, dou
   return vHists;
 }
 
-TProfile* create_profile_histogram(TString name, int nBins, double x_low, double x_high)
+TProfile* create_profile_histogram(TString name, int nBins, const double *xbins)
 {
-    TProfile *h = new TProfile(name, "", nBins, x_low, x_high);
+    TProfile *h = new TProfile(name, "", nBins, xbins);
     h->Sumw2();
     return h;
 }
 
-vector<TProfile*> create_profile_histogram_vector(TString name, int nBins, double x_los, double x_high, int nHists)
+vector<TProfile*> create_profile_histogram_vector(TString name, int nBins, const double *xbins, int nHists)
 {
     vector<TProfile*> vHists;
     for(int i=0;i<nHists;i++)
     {
-        vHists.push_back(create_profile_histogram(name_to_string(i),nBins,x_low,x_high));
+        vHists.push_back(create_profile_histogram(name+to_string(i),nBins,xbins));
     }
     return vHists;
 }

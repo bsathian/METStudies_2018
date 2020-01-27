@@ -119,30 +119,51 @@ class MetHelper
     vector<TH2D*> hJetEtaPhi_1Jet_qTGeq200;
     vector<TH2D*> hJetEtaPhi_1HighPtJet_qTGeq200;
 
-
+    vector<vector<TH1D*>> hZpT_resBinned;
+    vector<vector<TH1D*>> hZpT_Puppi_resBinned; //bookkeeping purposes
     vector<TH1D*> hZpT;
     vector<TH1D*> hT1CMET_UPara;
     vector<TH1D*> hT1CMET_UPerp;
     vector<TH1D*> hT1CMET_UParaPlusqT;
     vector<TH1D*> hT1CMET_UPara_over_high_qT;
 
+    vector<vector<TH1D*>> hT1CMET_UPara_resBinned;
+    vector<vector<TH1D*>> hT1CMET_UParaEE_resBinned;
+    vector<vector<TH1D*>> hT1CMET_UParaMM_resBinned;
+
     vector<TH1D*> hT1CMET_UPara_Puppi;
     vector<TH1D*> hT1CMET_UPerp_Puppi;
     vector<TH1D*> hT1CMET_UParaPlusqT_Puppi;
-
-
+    
+    vector<vector<TH1D*>> hT1CMET_UPara_Puppi_resBinned;
+    vector<vector<TH1D*>> hT1CMET_UParaEE_Puppi_resBinned;
+    vector<vector<TH1D*>> hT1CMET_UParaMM_Puppi_resBinned;
+ 
     vector<TH1D*> hXYCMET_UPara;
     vector<TH1D*> hXYCMET_UPerp;
     vector<TH1D*> hXYCMET_UParaPlusqT;
     vector<TH1D*> hXYCMET_UPara_over_high_qT;
 
+    vector<vector<TH1D*>> hXYCMET_UPara_resBinned;
+    vector<vector<TH1D*>> hXYCMET_UParaEE_resBinned;
+    vector<vector<TH1D*>> hXYCMET_UParaMM_resBinned;
+
     vector<TH1D*> hXYCMET_UPara_Puppi;
     vector<TH1D*> hXYCMET_UPerp_Puppi;
     vector<TH1D*> hXYCMET_UParaPlusqT_Puppi;
 
+    vector<vector<TH1D*>> hXYCMET_UPara_Puppi_resBinned;
+    vector<vector<TH1D*>> hXYCMET_UParaEE_Puppi_resBinned;
+    vector<vector<TH1D*>> hXYCMET_UParaMM_Puppi_resBinned;
+
     vector<TProfile*> hScale_T1CMET_Puppi;
     vector<TProfile*> hScale_T1CMET_EE_Puppi;
     vector<TProfile*> hScale_T1CMET_MM_Puppi;
+    
+    //proper scale histograms
+    vector<float> ptbins;
+    vector<TH1D*> hZPtBins;
+    vector<TH1D*> hUparaPerPtBin;
 
     vector<vector<TH1D*>> hResPara;
     vector<vector<TH1D*>> hResPerp;
@@ -297,6 +318,25 @@ void MetHelper::create_histograms() {
     hResponse.push_back(create_histogram_vector("hT1CMET_Response" + name + to_string(i), 100, -10, 10, nHists));
     hResponseEE.push_back(create_histogram_vector("hT1CMET_ResponseEE" + name + to_string(i), 100, -10, 10, nHists));
     hResponseMM.push_back(create_histogram_vector("hT1CMET_ResponseMM" + name + to_string(i), 100, -10, 10, nHists));
+
+    if(i < resolution_bins.size()-1)
+    {
+        hZpT_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
+    }
+    else
+    {
+        hZpT_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
+    }
+
+        hT1CMET_UPara_resBinned.push_back(create_histogram_vector("hT1CMET_UPara_resBinned" + name + to_string(i),200,-400,400,nHists));
+        hT1CMET_UParaEE_resBinned.push_back(create_histogram_vector("hT1CMET_UParaEE_resBinned" + name + to_string(i),200,-400,400,nHists));
+        hT1CMET_UParaMM_resBinned.push_back(create_histogram_vector("hT1CMET_UParaMM_resBinned" + name + to_string(i),200,-400,400,nHists));
+
+        hXYCMET_UPara_resBinned.push_back(create_histogram_vector("hXYCMET_UPara_resBinned" + name + to_string(i),200,-400,400,nHists));
+        hXYCMET_UParaEE_resBinned.push_back(create_histogram_vector("hXYCMET_UParaEE_resBinned" + name + to_string(i),200,-400,400,nHists));
+        hXYCMET_UParaMM_resBinned.push_back(create_histogram_vector("hXYCMET_UParaMM_resBinned" + name + to_string(i),200,-400,400,nHists));
+
+
     hResponseVeryLowPU.push_back(create_histogram_vector("hT1CMET_ResponseVeryLowPU" + name + to_string(i), 100, -10, 10, nHists));
     hResponseLowPU.push_back(create_histogram_vector("hT1CMET_ResponseLowPU" + name + to_string(i), 100, -10, 10, nHists));
     hResponseMedPU.push_back(create_histogram_vector("hT1CMET_ResponseMedPU" + name + to_string(i), 100, -10, 10, nHists));
@@ -304,7 +344,6 @@ void MetHelper::create_histograms() {
     hResponseLeadJetLowEta.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetLowEta" + name + to_string(i), 100, -10, 10, nHists));
     hResponseLeadJetMedEta.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetMedEta" + name + to_string(i), 100, -10, 10, nHists));
     hResponseLeadJetHighEta.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetHighEta" + name + to_string(i), 100, -10, 10, nHists));
-
     hResponseLeadJetLowEta_30GeVJet.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetLowEta_30GeVJet" + name + to_string(i), 100, -10, 10, nHists));
     hResponseLeadJetMedEta_30GeVJet.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetMedEta_30GeVJet" + name + to_string(i), 100, -10, 10, nHists));
     hResponseLeadJetHighEta_30GeVJet.push_back(create_histogram_vector("hT1CMET_ResponseLeadJetHighEta_30GeVJet" + name + to_string(i), 100, -10, 10, nHists));
@@ -315,6 +354,7 @@ void MetHelper::create_histograms() {
 
     hResPara.push_back(create_histogram_vector("hT1CMET_ResPara" + name + to_string(i), 200, -400, 400, nHists));
     hResPerp.push_back(create_histogram_vector("hT1CMET_ResPerp" + name + to_string(i), 100, -200, 200, nHists));
+    
 
     hResponseUp.push_back(create_histogram_vector("hT1CMET_ResponseUp" + name + to_string(i), 100, -10, 10, nHists));
     hResponseUpEE.push_back(create_histogram_vector("hT1CMET_ResponseUpEE" + name + to_string(i), 100, -10, 10, nHists));
@@ -396,6 +436,27 @@ void MetHelper::create_histograms() {
   hScale_T1CMET_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
   hScale_T1CMET_EE_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_ee_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
   hScale_T1CMET_MM_Puppi = create_profile_histogram_vector("hScale_T1CMET_ZPt_MM_Puppi"+name,resolution_bins.size()-1,&resolution_bins[0],nHists);
+
+  for(int i = 0; i <resolution_bins.size(); i++)
+  {
+    if(i < resolution_bins.size()-1)
+    {
+        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
+    }
+    else
+    {
+        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
+    }
+     hT1CMET_UPara_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UPara_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+     hT1CMET_UParaEE_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UParaEE_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+     hT1CMET_UParaMM_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UParaMM_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+
+    hXYCMET_UPara_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UPara_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+     hXYCMET_UParaEE_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UParaEE_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+     hXYCMET_UParaMM_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UParaMM_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+
+  }
+
 
 }
 
@@ -674,6 +735,16 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
   if (isElEvt)      fill_histograms(hResponseEE[resolution_idx], -u_para/boson_pt, weights);
   else              fill_histograms(hResponseMM[resolution_idx], -u_para/boson_pt, weights);
 
+  //new histogram filling stuff
+  fill_histograms(hZpT_resBinned[resolution_idx],boson_pt,weights);
+  fill_histograms(hT1CMET_UPara_resBinned[resolution_idx],-upara,weights);
+  fill_histograms(hXYCMET_UPara_resBinned[resolution_idx],-xy_u_para,weights);
+  if(isElEvt) fill_histograms(hT1CMET_UParaEE_resBinned[resolution_idx],-upara,weights);
+  else fill_histograms(hT1CMET_UParaMM_resBinned[resolution_idx],-upara,weights);
+
+  if(isElEvt) fill_histograms(hXYCMET_UParaEE_resBinned[resolution_idx],-xy_u_para,weights);
+  else fill_histograms(hXYCMET_UParaMM_resBinned[resolution_idx],-xy_u_perp,weights);
+
   if (vId[0] < 10) fill_histograms(hResponseVeryLowPU[resolution_idx], -u_para/boson_pt, weights);
   else if (vId[0] < 25) fill_histograms(hResponseLowPU[resolution_idx], -u_para/boson_pt, weights); 
   else if (vId[0] < 35) fill_histograms(hResponseMedPU[resolution_idx], -u_para/boson_pt, weights); 
@@ -916,8 +987,18 @@ void MetHelper::fill_puppi_met_histograms(TString currentFileName, bool isElEvt,
   {
       fill_profile_histograms(hScale_T1CMET_MM_Puppi,boson_pt,-u_para/boson_pt,weights);
   }
-
   
+  int resolution_idx = find_index(resolution_bins, boson_pt);
+  fill_histograms(hZpT_Puppi_resBinned[resolution_idx],boson_pt,weights);
+  fill_histograms(hT1CMET_UPara_Puppi_resBinned[resolution_idx],-upara,weights);
+  fill_histograms(hXYCMET_UPara_Puppi_resBinned[resolution_idx],-xy_u_para,weights);
+  if(isElEvt) fill_histograms(hT1CMET_UParaEE_Puppi_resBinned[resolution_idx],-upara,weights);
+  else fill_histograms(hT1CMET_UParaMM_Puppi_resBinned[resolution_idx],-upara,weights);
+
+  if(isElEvt) fill_histograms(hXYCMET_UParaEE_Puppi_resBinned[resolution_idx],-xy_u_para,weights);
+  else fill_histograms(hXYCMET_UParaMM_Puppi_resBinned[resolution_idx],-xy_u_perp,weights);
+
+ 
 }
 
 
