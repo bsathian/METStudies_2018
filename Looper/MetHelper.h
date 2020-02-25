@@ -321,11 +321,11 @@ void MetHelper::create_histograms() {
 
     if(i < resolution_bins.size()-1)
     {
-        hZpT_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
+        hZpT_resBinned.push_back(create_histogram_vector("hZpT_resBinned"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
     }
     else
     {
-        hZpT_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
+        hZpT_resBinned.push_back(create_histogram_vector("hZpT_resBinned"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
     }
 
         hT1CMET_UPara_resBinned.push_back(create_histogram_vector("hT1CMET_UPara_resBinned" + name + to_string(i),200,-400,400,nHists));
@@ -441,17 +441,17 @@ void MetHelper::create_histograms() {
   {
     if(i < resolution_bins.size()-1)
     {
-        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
+        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT_Puppi_resBinned"+name+to_string(i),100,resolution_bins[i],resolution_bins[i+1],nHists));
     }
     else
     {
-        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
+        hZpT_Puppi_resBinned.push_back(create_histogram_vector("hZpT_Puppi_resBinned"+name+to_string(i),100,resolution_bins[i],6000,nHists)); //Overflow
     }
      hT1CMET_UPara_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UPara_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
      hT1CMET_UParaEE_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UParaEE_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
      hT1CMET_UParaMM_Puppi_resBinned.push_back(create_histogram_vector("hT1CMET_UParaMM_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
 
-    hXYCMET_UPara_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UPara_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
+     hXYCMET_UPara_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UPara_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
      hXYCMET_UParaEE_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UParaEE_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
      hXYCMET_UParaMM_Puppi_resBinned.push_back(create_histogram_vector("hXYCMET_UParaMM_Puppi_resBinned" + name + to_string(i),200,-400,400,nHists));
 
@@ -737,10 +737,10 @@ void MetHelper::fill_met_histograms(TString currentFileName, bool isElEvt, int i
 
   //new histogram filling stuff
   fill_histograms(hZpT_resBinned[resolution_idx],boson_pt,weights);
-  fill_histograms(hT1CMET_UPara_resBinned[resolution_idx],-upara,weights);
+  fill_histograms(hT1CMET_UPara_resBinned[resolution_idx],-u_para,weights);
   fill_histograms(hXYCMET_UPara_resBinned[resolution_idx],-xy_u_para,weights);
-  if(isElEvt) fill_histograms(hT1CMET_UParaEE_resBinned[resolution_idx],-upara,weights);
-  else fill_histograms(hT1CMET_UParaMM_resBinned[resolution_idx],-upara,weights);
+  if(isElEvt) fill_histograms(hT1CMET_UParaEE_resBinned[resolution_idx],-u_para,weights);
+  else fill_histograms(hT1CMET_UParaMM_resBinned[resolution_idx],-u_para,weights);
 
   if(isElEvt) fill_histograms(hXYCMET_UParaEE_resBinned[resolution_idx],-xy_u_para,weights);
   else fill_histograms(hXYCMET_UParaMM_resBinned[resolution_idx],-xy_u_perp,weights);
@@ -990,10 +990,10 @@ void MetHelper::fill_puppi_met_histograms(TString currentFileName, bool isElEvt,
   
   int resolution_idx = find_index(resolution_bins, boson_pt);
   fill_histograms(hZpT_Puppi_resBinned[resolution_idx],boson_pt,weights);
-  fill_histograms(hT1CMET_UPara_Puppi_resBinned[resolution_idx],-upara,weights);
+  fill_histograms(hT1CMET_UPara_Puppi_resBinned[resolution_idx],-u_para,weights);
   fill_histograms(hXYCMET_UPara_Puppi_resBinned[resolution_idx],-xy_u_para,weights);
-  if(isElEvt) fill_histograms(hT1CMET_UParaEE_Puppi_resBinned[resolution_idx],-upara,weights);
-  else fill_histograms(hT1CMET_UParaMM_Puppi_resBinned[resolution_idx],-upara,weights);
+  if(isElEvt) fill_histograms(hT1CMET_UParaEE_Puppi_resBinned[resolution_idx],-u_para,weights);
+  else fill_histograms(hT1CMET_UParaMM_Puppi_resBinned[resolution_idx],-u_para,weights);
 
   if(isElEvt) fill_histograms(hXYCMET_UParaEE_Puppi_resBinned[resolution_idx],-xy_u_para,weights);
   else fill_histograms(hXYCMET_UParaMM_Puppi_resBinned[resolution_idx],-xy_u_perp,weights);

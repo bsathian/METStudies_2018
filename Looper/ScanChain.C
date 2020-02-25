@@ -29,14 +29,142 @@
 using namespace std;
 using namespace tas;
 
-const TString elT = "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v";
-const TString muT1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_v";
-const TString muT2 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_v";
-const TString muT3 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v";
+const TString elT1 = "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_DZ_v";
+const TString elT2 = "HLT_Ele23_Ele12_CaloIdL_TrackIdL_IsoVL_v";
+const TString elT3 = "HLT_DoubleEle25_CaloIdL_MW_v";
+
+const TString muT1 = "HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_Mass3p8_v";
+const TString muT2 = "HLT_Mu3_TkMu27_v";
 
 const int nEtaRegions = 6;
 const int nCandCats = 4;
 const int nMETVars = 3;
+
+
+TH2D * h_eleweights_id  ;
+TH2D * h_eleweightsiso  ;
+TH2D * h_eleweights_reco;
+TH2D * h_eleweights_conv;
+
+TH2D * h_muoweights_id;
+TH2D * h_muoweights_SIP3D_hist;
+TH2D * h_muoweightsiso;
+TH2D * h_muoweights_IP2D_hist;
+
+
+void load_leptonSF_files()
+{
+
+  cout<<"Loading Lepton Scale Factors..."<<endl;
+  TDirectory *rootdir = gDirectory->GetDirectory("Rint:");
+  TFile * f_sfweights = NULL;
+
+  // electron reconstruction SFs
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/electrons/2016/EGM2D_BtoH_GT20GeV_RecoSF_Legacy2016.root","READ");
+  }
+  else if(gconf.year == 2017)
+  {
+      f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/egammaEffi.txt_EGM2D_runBCDEF_passingRECO.root","READ");
+  }
+  else if(gconf.year == 2018)
+  {
+      //do nothing
+      f_sfweights = TFile::Open("leptonSFs/electrons/2018/egammaEffi.txt_EGM2D_updatedAll.root","READ");
+  }
+
+  h_eleweights_reco = (TH2D*) f_sfweights->Get("EGamma_SF2D") -> Clone("h_eleweights_reco");
+  h_eleweights_reco->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // electron ID/Iso SFs for Fullsim to Data
+
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/electrons/2016/ElectronScaleFactors_Run2016.root","READ");
+    h_eleweights_id = (TH2D*) f_sfweights->Get("Run2016_MVATightTightIP2D3D") -> Clone("h_eleweights_id");
+  h_eleweightsiso = (TH2D*) f_sfweights->Get("Run2016_Mini")  -> Clone("h_eleweightsiso");
+  h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2016_ConvIHit0") -> Clone("h_eleweights_conv");
+
+  }
+  else if(gconf.year == 2017)
+  {
+    f_sfweights = TFile::Open("leptonSFs/electrons/Fall17/ElectronScaleFactors_Run2017.root","READ");
+    h_eleweights_id = (TH2D*) f_sfweights->Get("Run2017_MVATightTightIP2D3D")->Clone("h_eleweights_id");
+    h_eleweightsiso = (TH2D*)f_sfweights->Get("Run2017_MVAVLooseTightIP2DMini")->Clone("h_eleweightsiso");
+    h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2017_ConvIHit0")->Clone("h_eleweights_conv");
+  }
+  else if(gconf.year == 2018)
+  {
+      f_sfweights = TFile::Open("leptonSFs/electrons/2018/ElectronScaleFactors_Run2018.root","READ");
+      h_eleweights_id = (TH2D*) f_sfweights->Get("Run2018_MVATightTightIP2D3D");
+      h_eleweightsiso = (TH2D*) f_sfweights->Get("Run2018_Mini");
+      h_eleweights_conv = (TH2D*) f_sfweights->Get("Run2018_ConvIHit0");
+      
+  }
+
+  h_eleweights_id->SetDirectory(rootdir);
+  h_eleweightsiso->SetDirectory(rootdir);
+  h_eleweights_conv->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // muon id SF for Fullsim to Data
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_MediumID_DENOM_generalTracks_VAR_map_pt_eta.root","READ");
+    h_muoweights_id = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_id");
+
+  }
+  else if(gconf.year == 2017 || gconf.year == 2018)
+  {
+      f_sfweights = TFile::Open("leptonSFs/muons/Fall17/RunBCDEF_SF_ID.root","READ");
+      h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_genTracks_pt_abseta")->Clone("h_muonweights_id");
+  }
+/*  else if(gconf.year == 2018)
+  {
+    f_sfweights = TFile::Open("leptonSFs/muons/2018/RunABCD_SF_ID.root","READ");
+    h_muoweights_id = (TH2D*) f_sfweights->Get("NUM_MediumPromptID_DEN_TrackerMuons_pt_abseta");
+  }*/
+  h_muoweights_id	->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // muon iso SF for Fullsim to Data
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_MiniIsoTight_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+    h_muoweightsiso = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweightsiso");
+  }
+  else if(gconf.year == 2017 || gconf.year == 2018)
+  {
+      f_sfweights = TFile::Open("leptonSFs/muons/Fall17/SUSY_Iso_SF.root","READ");
+      h_muoweightsiso = (TH2D*)f_sfweights->Get("TnP_MC_NUM_MiniIso02Cut_DEN_MediumCutidPromptCut_PAR_pt_eta")->Clone("h_muonweightsiso");
+  }
+  h_muoweightsiso->SetDirectory(rootdir);
+  f_sfweights->Close();
+
+  // muon tracking SF due to HIPs for Fullsim to Data
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/TnP_NUM_TightIP2D_DENOM_MediumID_VAR_map_pt_eta.root","READ");
+    h_muoweights_IP2D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_IP2D_hist");
+    h_muoweights_IP2D_hist -> SetDirectory(rootdir);
+  }
+    f_sfweights->Close();
+
+
+  // muon ip SF for Fullsim to Data
+  if(gconf.year == 2016)
+  {
+    f_sfweights  = TFile::Open("leptonSFs/muons/2016/ScaleFactorMuonSIP3D.root","READ");
+    h_muoweights_SIP3D_hist = (TH2D*) f_sfweights->Get("SF") -> Clone("h_muoweights_SIP3D");
+    h_muoweights_SIP3D_hist->SetDirectory(rootdir);
+  }
+  f_sfweights->Close();
+
+
+}
+
 
 int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, bool puReweight, int selection, double scale1fb, double target_lumi = 1.) {
   gconf.year = -1;
@@ -213,6 +341,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       }
 
       // Check filters
+      
       if (firstGoodVertex() == -1)		continue;
       if (!filt_goodVertices())          	continue;
       if (!filt_globalSuperTightHalo2016())   	continue;
@@ -244,11 +373,54 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
         }
       }
       // Weight further if MC
+      vector<double> lepsf_weights;
       if (!cms3.evt_isRealData()) {
+          float min_leppt_leading,min_leppt_trailing;
+          float lepeta_leading,lepeta_trailing;
+          if(isElEvt)
+          {
+            min_leppt_leading = min(499.0,(double)els_p4().at(id1).pt());
+            min_leppt_trailing = min(499.0,(double)els_p4().at(id2).pt());
+            lepeta_leading = els_p4().at(id1).eta();
+            lepeta_traililng = els_p4().at(id2).eta();
+
+            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta_leading, 100)));
+
+            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta_trailing, 100))); 
+
+            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
+            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_trailing), min_leppt_electron_trailing)));
+
+            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
+            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta_trailing, min_leppt_electron_trailing )) );
+
+            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
+            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_trailing), min_leppt_electron_trailing )) );
+ 
+          }
+          else  //muon
+          {
+              min_leppt_leading = min(119.0,(double)mus_p4().at(id1));
+              min_leppt_trailing = min(119.0,(double)mus_p4().at(id2));
+              lepeta_leading = mus_p4().at(id1).eta();
+              lepeta_trailing = mus_p4().at(id2).eta();
+
+              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_muon_leading, abs(lepeta_leading ))));
+              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_muon_trailing, abs(lepeta_trailing ))));
+
+
+      			lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_muon_leading, abs(lepeta_leading ))));
+                lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_muon_trailing, abs(lepeta_trailing ))));
+
+          }
+        
 	for (int i = 0; i < nHists; i++) {
           weight[i] *= scale1fb * target_lumi *sgn(genps_weight());
-	  //weight_up[i] *= scale1fb * target_lumi *sgn(genps_weight());
-	  //weight_down[i] *= scale1fb * target_lumi *sgn(genps_weight());
+
+            for(auto &tempweight:lepsf_weights) //lepton sf weights
+            {
+                weights[i] *= tempweight;
+            }
 	}
       }
 
