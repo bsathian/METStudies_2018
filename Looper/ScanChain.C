@@ -375,6 +375,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       }
       // Weight further if MC
       vector<double> lepsf_weights;
+      load_leptonSF_files();
       if (!cms3.evt_isRealData()) {
           float min_leppt_leading,min_leppt_trailing;
           float lepeta_leading,lepeta_trailing;
