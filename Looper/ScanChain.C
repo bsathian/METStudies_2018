@@ -331,8 +331,11 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       else {
         if (lepsPassPOG(true, id1, id2))
           isElEvt = true;
+
         else if (lepsPassPOG(false, id1, id2))
-          isElE)
+          isElEvt = false;
+        else continue;
+      }
 
       if (selection == 3) {
 	if (!isElEvt)				continue;
@@ -390,7 +393,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
             lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_trailing), min_leppt_trailing)));
 
             lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs(lepeta_leading), min_leppt_leading )) );
-            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta_trailing, min_leppt_trailing )) );
+            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs(lepeta_trailing), min_leppt_trailing )) );
 
             lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_leading), min_leppt_leading )) );
             lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_trailing), min_leppt_trailing )) );
