@@ -323,18 +323,16 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
       bool isElEvt;
       int id1(-1), id2(-1);
       if (cms3.evt_isRealData()) {
-        if (!(passHLTTriggerPattern(elT) ||  passHLTTriggerPattern(muT1) || passHLTTriggerPattern(muT2) || passHLTTriggerPattern(muT3))) continue;
-        if (passHLTTriggerPattern(elT))                                          isElEvt = true;
-        else if (passHLTTriggerPattern(muT1) || passHLTTriggerPattern(muT2) || passHLTTriggerPattern(muT3))      isElEvt = false;
+        if (!(passHLTTriggerPattern(elT1) || passHLTTriggerPattern(elT2)  passHLTTriggerPattern(muT1) || passHLTTriggerPattern(muT2))) continue;
+        if (passHLTTriggerPattern(elT1) || passHLTTriggerPattern(elT2))                                          isElEvt = true;
+        else if (passHLTTriggerPattern(muT1) || passHLTTriggerPattern(muT2))      isElEvt = false;
       }
 
       else {
         if (lepsPassPOG(true, id1, id2))
           isElEvt = true;
         else if (lepsPassPOG(false, id1, id2))
-          isElEvt = false;
-        else continue;
-      }
+          isElE)
 
       if (selection == 3) {
 	if (!isElEvt)				continue;
@@ -382,35 +380,34 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
             min_leppt_leading = min(499.0,(double)els_p4().at(id1).pt());
             min_leppt_trailing = min(499.0,(double)els_p4().at(id2).pt());
             lepeta_leading = els_p4().at(id1).eta();
-            lepeta_traililng = els_p4().at(id2).eta();
+            lepeta_trailing = els_p4().at(id2).eta();
 
-            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta_leading, 100)));
+            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lepeta_leading, 100)));
 
-            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lep_eta_trailing, 100))); 
+            lepsf_weights.push_back( h_eleweights_reco->GetBinContent( h_eleweights_reco->FindBin( lepeta_trailing, 100))); 
 
-            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
-            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_trailing), min_leppt_electron_trailing)));
+            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_leading), min_leppt_leading )) );
+            lepsf_weights.push_back( h_eleweights_id  ->GetBinContent( h_eleweights_id  ->FindBin( abs(lepeta_trailing), min_leppt_trailing)));
 
-            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
-            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta_trailing, min_leppt_electron_trailing )) );
+            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs(lepeta_leading), min_leppt_leading )) );
+            lepsf_weights.push_back( h_eleweightsiso  ->GetBinContent( h_eleweightsiso  ->FindBin( abs_lepeta_trailing, min_leppt_trailing )) );
 
-            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_leading), min_leppt_electron_leading )) );
-            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_trailing), min_leppt_electron_trailing )) );
+            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_leading), min_leppt_leading )) );
+            lepsf_weights.push_back( h_eleweights_conv  ->GetBinContent( h_eleweights_conv  ->FindBin( abs(lepeta_trailing), min_leppt_trailing )) );
  
           }
           else  //muon
           {
-              min_leppt_leading = min(119.0,(double)mus_p4().at(id1));
-              min_leppt_trailing = min(119.0,(double)mus_p4().at(id2));
+              min_leppt_leading = min(119.0,(double)mus_p4().at(id1).pt());
+              min_leppt_trailing = min(119.0,(double)mus_p4().at(id2).pt());
               lepeta_leading = mus_p4().at(id1).eta();
               lepeta_trailing = mus_p4().at(id2).eta();
 
-              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_muon_leading, abs(lepeta_leading ))));
-              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_muon_trailing, abs(lepeta_trailing ))));
+              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_leading, abs(lepeta_leading ))));
+              lepsf_weights.push_back( h_muoweights_id      ->GetBinContent( h_muoweights_id      ->FindBin( min_leppt_trailing, abs(lepeta_trailing ))));
 
-
-      			lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_muon_leading, abs(lepeta_leading ))));
-                lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_muon_trailing, abs(lepeta_trailing ))));
+      		  lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_leading, abs(lepeta_leading ))));
+              lepsf_weights.push_back( h_muoweightsiso      ->GetBinContent( h_muoweightsiso      ->FindBin( min_leppt_trailing, abs(lepeta_trailing ))));
 
           }
         
@@ -419,7 +416,7 @@ int ScanChain(TChain* chain, TString output_name, vector<TString> vWeightFile, b
 
             for(auto &tempweight:lepsf_weights) //lepton sf weights
             {
-                weights[i] *= tempweight;
+                weight[i] *= tempweight;
             }
 	}
       }
