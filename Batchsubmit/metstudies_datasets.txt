@@ -31,7 +31,7 @@ ds:2018DoubleEG_eraB
 ds:2018DoubleEG_eraC
 /EGamma/Run2018C-17Sep2018-v1/MINIAOD
 ds:2018DoubleEG_eraD
-/EGamma/Run2018D-PromptReco-v2/MINIAOD
+/EGamma/Run2018D-22Jan2019-v2/MINIAOD
 ds:2018DoubleMuon_eraA
 /DoubleMuon/Run2018A-17Sep2018-v2/MINIAOD
 ds:2018DoubleMuon_eraB
@@ -46,4 +46,8 @@ ds:2018WW
 /WW_TuneCP5_13TeV-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v2/MINIAODSIM
 ds:2018WZ
 /WZ_TuneCP5_13TeV-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v3/MINIAODSIM
-
+ds:2018SingleTop
+/ST_tW_top_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v3/MINIAODSIM
+/ST_tW_antitop_5f_NoFullyHadronicDecays_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15_ext1-v3/MINIAODSIM
+ds:2018ttbar
+/TTTo2L2Nu_TuneCP5_13TeV-powheg-pythia8/RunIIAutumn18MiniAOD-102X_upgrade2018_realistic_v15-v1/MINIAODSIM
